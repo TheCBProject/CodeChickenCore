@@ -46,7 +46,7 @@ public abstract class ContainerExtended extends Container implements ICrafting
     }
 
     @Override
-    public void func_175173_a(Container p_175173_1_, IInventory p_175173_2_) {}
+    public void sendAllWindowProperties(Container p_175173_1_, IInventory p_175173_2_) {}
 
     public void sendContainerAndContentsToPlayer(Container container, List<ItemStack> list, List<EntityPlayerMP> playerCrafters) {
         LinkedList<ItemStack> largeStacks = new LinkedList<ItemStack>();

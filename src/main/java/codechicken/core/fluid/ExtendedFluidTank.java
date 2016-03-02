@@ -1,6 +1,7 @@
 package codechicken.core.fluid;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
@@ -10,12 +11,12 @@ public class ExtendedFluidTank implements IFluidTank
     private FluidStack fluid;
     private boolean changeType;
     private int capacity;
-    
+    //TODO
     public ExtendedFluidTank(FluidStack type, int capacity)
     {
         if(type == null)
         {
-            fluid = new FluidStack(0, 0);
+            fluid = new FluidStack(new Fluid("none", null, null), 0);
             changeType = true;
         }
         else
@@ -42,13 +43,13 @@ public class ExtendedFluidTank implements IFluidTank
 
     public boolean canAccept(FluidStack type)
     {
-        return type == null || type.fluidID <= 0 || (fluid.amount == 0 && changeType) || fluid.isFluidEqual(type);
+        return type == null || !type.getFluid().getName().equals("none") || (fluid.amount == 0 && changeType) || fluid.isFluidEqual(type);
     }
 
     @Override
     public int fill(FluidStack resource, boolean doFill)
     {
-        if(resource == null || resource.fluidID <= 0)
+        if(resource == null || resource.getFluid().getName().equals("none"))
             return 0;
 
         if(!canAccept(resource))
