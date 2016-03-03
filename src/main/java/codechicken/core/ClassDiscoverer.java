@@ -1,5 +1,13 @@
 package codechicken.core;
 
+import codechicken.core.launch.CodeChickenCorePlugin;
+import codechicken.lib.asm.ASMHelper;
+import net.minecraft.launchwrapper.Launch;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModClassLoader;
+import net.minecraftforge.fml.common.ModContainer;
+import org.objectweb.asm.tree.ClassNode;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,22 +17,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import net.minecraft.launchwrapper.Launch;
-import net.minecraftforge.fml.common.ModContainer;
-import org.objectweb.asm.tree.ClassNode;
-
-import codechicken.core.launch.CodeChickenCorePlugin;
-import codechicken.lib.asm.ASMHelper;
-
-import com.google.common.collect.ImmutableList;
-
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModClassLoader;
-import net.minecraftforge.fml.relauncher.CoreModManager;
-
-public class ClassDiscoverer
-{
+public class ClassDiscoverer {
     public IStringMatcher matcher;
     public String[] superclasses;
     public ArrayList<Class<?>> classes;
@@ -33,17 +26,19 @@ public class ClassDiscoverer
     public ClassDiscoverer(IStringMatcher matcher, Class<?>... superclasses) {
         this.matcher = matcher;
         this.superclasses = new String[superclasses.length];
-        for (int i = 0; i < superclasses.length; i++)
+        for (int i = 0; i < superclasses.length; i++) {
             this.superclasses[i] = superclasses[i].getName().replace('.', '/');
+        }
 
         classes = new ArrayList<Class<?>>();
         modClassLoader = (ModClassLoader) Loader.instance().getModClassLoader();
     }
 
     public ClassDiscoverer(Class<?>... superclasses) {
-        this(new IStringMatcher()
-        {
-            public boolean matches(String test) {return true;}
+        this(new IStringMatcher() {
+            public boolean matches(String test) {
+                return true;
+            }
         }, superclasses);
     }
 
@@ -60,13 +55,16 @@ public class ClassDiscoverer
         try {
             String classname = resource.replace(".class", "").replace("\\", ".").replace("/", ".");
             byte[] bytes = Launch.classLoader.getClassBytes(classname);
-            if (bytes == null)
+            if (bytes == null) {
                 return;
+            }
 
             ClassNode cnode = ASMHelper.createClassNode(bytes);
-            for (String superclass : superclasses)
-                if (!cnode.interfaces.contains(superclass) && !cnode.superName.equals(superclass))
+            for (String superclass : superclasses) {
+                if (!cnode.interfaces.contains(superclass) && !cnode.superName.equals(superclass)) {
                     return;
+                }
+            }
 
             addClass(classname);
         } catch (IOException e) {
@@ -88,8 +86,9 @@ public class ClassDiscoverer
         HashSet<String> searched = new HashSet<String>();
         for (ModContainer mod : mods) {
             File source = mod.getSource();
-            if(source == null || searched.contains(source.getAbsolutePath()))
+            if (source == null || searched.contains(source.getAbsolutePath())) {
                 continue;
+            }
             searched.add(source.getAbsolutePath());
 
             if (source.isFile()) {
@@ -120,8 +119,7 @@ public class ClassDiscoverer
             if (!zipentry.isDirectory() && matcher.matches(name)) {
                 checkAddClass(fullname);
             }
-        }
-        while (true);
+        } while (true);
         fileinputstream.close();
     }
 

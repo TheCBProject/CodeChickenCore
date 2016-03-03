@@ -1,27 +1,29 @@
 package codechicken.core.commands;
 
-import java.util.List;
-
 import codechicken.core.ServerUtils;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.*;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
-public abstract class CoreCommand implements ICommand
-{
+import java.util.List;
+
+public abstract class CoreCommand implements ICommand {
     public static void chatT(ICommandSender sender, String s, Object... params) {
         sender.addChatMessage(new ChatComponentTranslation(s, params));
     }
 
     public static void chatOpsT(String s, Object... params) {
-        for (EntityPlayerMP player : ServerUtils.getPlayers())
-            if (MinecraftServer.getServer().getConfigurationManager().canSendCommands(player.getGameProfile()))
+        for (EntityPlayerMP player : ServerUtils.getPlayers()) {
+            if (MinecraftServer.getServer().getConfigurationManager().canSendCommands(player.getGameProfile())) {
                 player.addChatMessage(new ChatComponentTranslation(s, params));
+            }
+        }
     }
 
     public abstract boolean OPOnly();
@@ -33,15 +35,15 @@ public abstract class CoreCommand implements ICommand
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        if (args.length < minimumParameters() ||
-                args.length == 1 && args[0].equals("help")) {
+        if (args.length < minimumParameters() || args.length == 1 && args[0].equals("help")) {
             printHelp(sender);
             return;
         }
 
         String command = getCommandName();
-        for (String arg : args)
+        for (String arg : args) {
             command += " " + arg;
+        }
 
         handleCommand(command, sender.getName(), args, sender);
     }
@@ -85,8 +87,9 @@ public abstract class CoreCommand implements ICommand
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender var1) {
         if (OPOnly()) {
-            if (var1 instanceof EntityPlayer)
+            if (var1 instanceof EntityPlayer) {
                 return MinecraftServer.getServer().getConfigurationManager().canSendCommands(((EntityPlayer) var1).getGameProfile());
+            }
 
             return var1 instanceof MinecraftServer;
         }

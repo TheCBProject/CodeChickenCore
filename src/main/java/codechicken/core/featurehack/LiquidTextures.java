@@ -1,21 +1,19 @@
 package codechicken.core.featurehack;
 
-import java.util.Map;
-
+import codechicken.core.asm.TweakTransformer;
 import codechicken.core.featurehack.mc.TextureLavaFX;
 import codechicken.core.featurehack.mc.TextureLavaFlowFX;
 import codechicken.core.featurehack.mc.TextureWaterFX;
 import codechicken.core.featurehack.mc.TextureWaterFlowFX;
 import codechicken.lib.render.TextureSpecial;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import codechicken.core.asm.TweakTransformer;
+import java.util.Map;
 
-public class LiquidTextures
-{
+public class LiquidTextures {
     public static TextureSpecial[] newTextures = new TextureSpecial[4];
 
     public static boolean replaceLava;
@@ -33,8 +31,9 @@ public class LiquidTextures
             newTextures[3] = new TextureLavaFlowFX().texture;
         }
 
-        if (replaceWater || replaceLava)
+        if (replaceWater || replaceLava) {
             MinecraftForge.EVENT_BUS.register(new LiquidTextures());
+        }
     }
 
     @SubscribeEvent

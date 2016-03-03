@@ -1,19 +1,18 @@
 package codechicken.core;
 
+import com.mojang.authlib.GameProfile;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.Container;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerProfileCache.ProfileEntry;
+import net.minecraft.util.IChatComponent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.mojang.authlib.GameProfile;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.inventory.Container;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.management.PlayerProfileCache.ProfileEntry;
-import net.minecraft.util.IChatComponent;
-
-public class ServerUtils extends CommonUtils
-{
+public class ServerUtils extends CommonUtils {
     public static MinecraftServer mc() {
         return MinecraftServer.getServer();
     }
@@ -28,9 +27,11 @@ public class ServerUtils extends CommonUtils
 
     public static ArrayList<EntityPlayer> getPlayersInDimension(int dimension) {
         ArrayList<EntityPlayer> players = new ArrayList<EntityPlayer>();
-        for (EntityPlayer p : getPlayers())
-            if(p.dimension == dimension)
+        for (EntityPlayer p : getPlayers()) {
+            if (p.dimension == dimension) {
                 players.add(p);
+            }
+        }
 
         return players;
     }
@@ -46,14 +47,16 @@ public class ServerUtils extends CommonUtils
 
     public static GameProfile getGameProfile(String username) {
         EntityPlayer player = getPlayer(username);
-        if(player != null)
+        if (player != null) {
             return player.getGameProfile();
+        }
 
         //try and access it in the cache without forcing a save
         username = username.toLowerCase(Locale.ROOT);
         ProfileEntry cachedEntry = (ProfileEntry) mc().getPlayerProfileCache().usernameToProfileEntryMap.get(username);
-        if(cachedEntry != null)
+        if (cachedEntry != null) {
             return cachedEntry.getGameProfile();
+        }
 
         //load it from the cache
         return mc().getPlayerProfileCache().getGameProfileForUsername(username);
@@ -69,7 +72,8 @@ public class ServerUtils extends CommonUtils
     }
 
     public static void sendChatToAll(IChatComponent msg) {
-        for(EntityPlayer p : getPlayers())
+        for (EntityPlayer p : getPlayers()) {
             p.addChatComponentMessage(msg);
+        }
     }
 }

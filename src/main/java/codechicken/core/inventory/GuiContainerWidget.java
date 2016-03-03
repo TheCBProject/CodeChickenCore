@@ -1,22 +1,19 @@
 package codechicken.core.inventory;
 
-import java.awt.Point;
+import codechicken.core.gui.GuiWidget;
+import codechicken.core.gui.IGuiActionListener;
+import codechicken.lib.gui.GuiDraw;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.inventory.Container;
+import org.lwjgl.input.Mouse;
+
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.input.Mouse;
-
-import codechicken.lib.gui.GuiDraw;
-import codechicken.core.gui.GuiWidget;
-import codechicken.core.gui.IGuiActionListener;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-
-public class GuiContainerWidget extends GuiContainer implements IGuiActionListener
-{
+public class GuiContainerWidget extends GuiContainer implements IGuiActionListener {
     public ArrayList<GuiWidget> widgets = new ArrayList<GuiWidget>();
 
     public GuiContainerWidget(Container inventorySlots) {
@@ -32,8 +29,9 @@ public class GuiContainerWidget extends GuiContainer implements IGuiActionListen
     @Override
     public void setWorldAndResolution(Minecraft mc, int i, int j) {
         super.setWorldAndResolution(mc, i, j);
-        if (widgets.isEmpty())
+        if (widgets.isEmpty()) {
             addWidgets();
+        }
     }
 
     public void add(GuiWidget widget) {
@@ -45,8 +43,9 @@ public class GuiContainerWidget extends GuiContainer implements IGuiActionListen
     protected void drawGuiContainerBackgroundLayer(float f, int mousex, int mousey) {
         GlStateManager.translate(guiLeft, guiTop, 0);
         drawBackground();
-        for (GuiWidget widget : widgets)
+        for (GuiWidget widget : widgets) {
             widget.draw(mousex - guiLeft, mousey - guiTop, f);
+        }
 
         GlStateManager.translate(-guiLeft, -guiTop, 0);
     }
@@ -57,37 +56,43 @@ public class GuiContainerWidget extends GuiContainer implements IGuiActionListen
     @Override
     protected void mouseClicked(int x, int y, int button) throws IOException {
         super.mouseClicked(x, y, button);
-        for (GuiWidget widget : widgets)
+        for (GuiWidget widget : widgets) {
             widget.mouseClicked(x - guiLeft, y - guiTop, button);
+        }
     }
 
     @Override
     protected void mouseReleased(int x, int y, int button) {
         super.mouseReleased(x, y, button);
-        for (GuiWidget widget : widgets)
+        for (GuiWidget widget : widgets) {
             widget.mouseReleased(x - guiLeft, y - guiTop, button);
+        }
     }
 
     @Override
     protected void mouseClickMove(int x, int y, int button, long time) {
         super.mouseClickMove(x, y, button, time);
-        for (GuiWidget widget : widgets)
+        for (GuiWidget widget : widgets) {
             widget.mouseDragged(x - guiLeft, y - guiTop, button, time);
+        }
     }
 
     @Override
     public void updateScreen() {
         super.updateScreen();
-        if (mc.currentScreen == this)
-            for (GuiWidget widget : widgets)
+        if (mc.currentScreen == this) {
+            for (GuiWidget widget : widgets) {
                 widget.update();
+            }
+        }
     }
 
     @Override
     public void keyTyped(char c, int keycode) throws IOException {
         super.keyTyped(c, keycode);
-        for (GuiWidget widget : widgets)
+        for (GuiWidget widget : widgets) {
             widget.keyTyped(c, keycode);
+        }
     }
 
     @Override
@@ -97,15 +102,18 @@ public class GuiContainerWidget extends GuiContainer implements IGuiActionListen
         if (i != 0) {
             Point p = GuiDraw.getMousePosition();
             int scroll = i > 0 ? 1 : -1;
-            for (GuiWidget widget : widgets)
+            for (GuiWidget widget : widgets) {
                 widget.mouseScrolled(p.x, p.y, scroll);
+            }
         }
     }
 
     @Override
-    public void actionPerformed(String ident, Object... params) {}
+    public void actionPerformed(String ident, Object... params) {
+    }
 
-    public void addWidgets() {}
+    public void addWidgets() {
+    }
 
     @Override
     public void onGuiClosed() {

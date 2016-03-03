@@ -1,17 +1,14 @@
 package codechicken.core.asm;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-
-import com.google.common.collect.ImmutableBiMap;
-
 import codechicken.lib.asm.ObfMapping;
-
+import com.google.common.collect.ImmutableBiMap;
 import net.minecraftforge.fml.common.asm.transformers.AccessTransformer;
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 
-public class CodeChickenAccessTransformer extends AccessTransformer
-{
+import java.io.IOException;
+import java.lang.reflect.Field;
+
+public class CodeChickenAccessTransformer extends AccessTransformer {
     private static boolean makeAllPublic;
     private static Field f_classNameBiMap;
     private static Object emptyMap = ImmutableBiMap.of();
@@ -22,17 +19,17 @@ public class CodeChickenAccessTransformer extends AccessTransformer
     }
 
     private void loadPublicConfig() {
-        if (ObfMapping.obfuscated)
+        if (ObfMapping.obfuscated) {
             return;
+        }
 
-        makeAllPublic = CodeChickenCoreModContainer.config.getTag("dev.runtimePublic")
-                .setComment("Enabling this setting will make all minecraft classes public at runtime in MCP just as they are in modloader." +
-                        "\nYou should ONLY use this when you are testing with a mod that relies on runtime publicity and doesn't include access transformers." +
-                        "\nSuch mods are doing the wrong thing and should be fixed.")
-                .getBooleanValue(false);
+        makeAllPublic = CodeChickenCoreModContainer.config.getTag("dev.runtimePublic").setComment("Enabling this setting will make all minecraft classes public at runtime in MCP just as they are in modloader." +
+                "\nYou should ONLY use this when you are testing with a mod that relies on runtime publicity and doesn't include access transformers." +
+                "\nSuch mods are doing the wrong thing and should be fixed.").getBooleanValue(false);
 
-        if (!makeAllPublic)
+        if (!makeAllPublic) {
             return;
+        }
 
         try {
             f_classNameBiMap = FMLDeobfuscatingRemapper.class.getDeclaredField("classNameBiMap");
@@ -45,11 +42,13 @@ public class CodeChickenAccessTransformer extends AccessTransformer
     @Override
     public byte[] transform(String name, String transformedName, byte[] bytes) {
         boolean setPublic = makeAllPublic && name.startsWith("net.minecraft.");
-        if (setPublic)
+        if (setPublic) {
             setClassMap(name);
+        }
         bytes = super.transform(name, transformedName, bytes);
-        if (setPublic)
+        if (setPublic) {
             restoreClassMap();
+        }
         return bytes;
     }
 

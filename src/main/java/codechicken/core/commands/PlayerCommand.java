@@ -1,15 +1,14 @@
 package codechicken.core.commands;
 
 import codechicken.lib.raytracer.RayTracer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
 
-public abstract class PlayerCommand extends CoreCommand
-{
+public abstract class PlayerCommand extends CoreCommand {
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender var1) {
         return super.canCommandSenderUseCommand(var1) && var1 instanceof EntityPlayer;

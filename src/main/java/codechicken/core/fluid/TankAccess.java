@@ -4,8 +4,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TankAccess
-{
+public class TankAccess {
     public IFluidHandler tank;
     public EnumFacing face;
 

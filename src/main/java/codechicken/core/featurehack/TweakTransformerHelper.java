@@ -1,15 +1,8 @@
 package codechicken.core.featurehack;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-
 //import static net.minecraftforge.common.util.ForgeDirection.UP;
 
-public class TweakTransformerHelper
-{
+public class TweakTransformerHelper {
     /*public static void quenchFireTick(World world, int x, int y, int z, Random rand)
     {
         Block base = world.getBlock(x, y - 1, z);

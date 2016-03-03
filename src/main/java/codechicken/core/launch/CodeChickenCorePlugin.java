@@ -1,6 +1,23 @@
 package codechicken.core.launch;
 
-import java.awt.Desktop;
+import codechicken.core.asm.CodeChickenCoreModContainer;
+import codechicken.core.asm.DelegatedTransformer;
+import codechicken.core.asm.MCPDeobfuscationTransformer;
+import codechicken.core.asm.TweakTransformer;
+import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
+import net.minecraftforge.fml.common.versioning.VersionParser;
+import net.minecraftforge.fml.relauncher.CoreModManager;
+import net.minecraftforge.fml.relauncher.FMLInjectionData;
+import net.minecraftforge.fml.relauncher.IFMLCallHook;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -10,26 +27,8 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import javax.swing.JEditorPane;
-import javax.swing.JOptionPane;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-
-import codechicken.core.asm.*;
-import net.minecraftforge.fml.relauncher.CoreModManager;
-
-import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
-import net.minecraftforge.fml.common.versioning.VersionParser;
-import net.minecraftforge.fml.relauncher.FMLInjectionData;
-import net.minecraftforge.fml.relauncher.IFMLCallHook;
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-@TransformerExclusions(value = {"codechicken.core.asm", "codechicken.obfuscator"})
-public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
-{
+@TransformerExclusions(value = { "codechicken.core.asm", "codechicken.obfuscator" })
+public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
     public static final String mcVersion = "[1.8.9]";
     public static final String version = "${mod_version}";
 
@@ -38,8 +37,9 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
     public static Logger logger = LogManager.getLogger("CodeChickenCore");
 
     public CodeChickenCorePlugin() {
-        if (minecraftDir != null)
+        if (minecraftDir != null) {
             return;//get called twice, once for IFMLCallHook
+        }
 
         minecraftDir = (File) FMLInjectionData.data()[6];
         currentMcVersion = (String) FMLInjectionData.data()[4];
@@ -55,7 +55,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
             Field f_loadPlugins = CoreModManager.class.getDeclaredField("loadPlugins");
             wrapperConstructor.setAccessible(true);
             f_loadPlugins.setAccessible(true);
-            ((List)f_loadPlugins.get(null)).add(2, wrapperConstructor.newInstance("CCCDeobfPlugin", new MCPDeobfuscationTransformer.LoadPlugin(), null, 0, new String[0]));
+            ((List) f_loadPlugins.get(null)).add(2, wrapperConstructor.newInstance("CCCDeobfPlugin", new MCPDeobfuscationTransformer.LoadPlugin(), null, 0, new String[0]));
         } catch (Exception e) {
             logger.error("Failed to inject MCPDeobfuscation Transformer", e);
         }
@@ -67,22 +67,22 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
             String err = "This version of " + mod + " does not support minecraft version " + mcVersion;
             logger.error(err);
 
-            JEditorPane ep = new JEditorPane("text/html",
-                    "<html>" +
-                            err +
-                            "<br>Remove it from your coremods folder and check <a href=\"http://www.minecraftforum.net/topic/909223-\">here</a> for updates" +
-                            "</html>");
+            JEditorPane ep = new JEditorPane("text/html", "<html>" +
+                    err +
+                    "<br>Remove it from your coremods folder and check <a href=\"http://www.minecraftforum.net/topic/909223-\">here</a> for updates" +
+                    "</html>");
 
             ep.setEditable(false);
             ep.setOpaque(false);
-            ep.addHyperlinkListener(new HyperlinkListener()
-            {
+            ep.addHyperlinkListener(new HyperlinkListener() {
                 @Override
                 public void hyperlinkUpdate(HyperlinkEvent event) {
                     try {
-                        if (event.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED))
+                        if (event.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
                             Desktop.getDesktop().browse(event.getURL().toURI());
-                    } catch (Exception ignored) {}
+                        }
+                    } catch (Exception ignored) {
+                    }
                 }
             });
 
@@ -94,11 +94,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
     @Override
     public String[] getASMTransformerClass() {
         versionCheck(mcVersion, "CodeChickenCore");
-        return new String[]{
-                "codechicken.core.asm.InterfaceDependancyTransformer",
-                "codechicken.core.asm.TweakTransformer",
-                "codechicken.core.asm.DelegatedTransformer",
-                "codechicken.core.asm.DefaultImplementationTransformer"};
+        return new String[] { "codechicken.core.asm.InterfaceDependancyTransformer", "codechicken.core.asm.TweakTransformer", "codechicken.core.asm.DelegatedTransformer", "codechicken.core.asm.DefaultImplementationTransformer" };
     }
 
     @Override
@@ -131,31 +127,38 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook
 
     private void scanCodeChickenMods() {
         File modsDir = new File(minecraftDir, "mods");
-        for (File file : modsDir.listFiles())
+        for (File file : modsDir.listFiles()) {
             scanMod(file);
+        }
         File versionModsDir = new File(minecraftDir, "mods/" + currentMcVersion);
-        if (versionModsDir.exists())
-            for (File file : versionModsDir.listFiles())
+        if (versionModsDir.exists()) {
+            for (File file : versionModsDir.listFiles()) {
                 scanMod(file);
+            }
+        }
     }
 
     private void scanMod(File file) {
-        if (!file.getName().endsWith(".jar") && !file.getName().endsWith(".zip"))
+        if (!file.getName().endsWith(".jar") && !file.getName().endsWith(".zip")) {
             return;
+        }
 
         try {
             JarFile jar = new JarFile(file);
             try {
                 Manifest manifest = jar.getManifest();
-                if (manifest == null)
+                if (manifest == null) {
                     return;
+                }
                 Attributes attr = manifest.getMainAttributes();
-                if (attr == null)
+                if (attr == null) {
                     return;
+                }
 
                 String transformer = attr.getValue("CCTransformer");
-                if (transformer != null)
+                if (transformer != null) {
                     DelegatedTransformer.addTransformer(transformer, jar, file);
+                }
             } finally {
                 jar.close();
             }

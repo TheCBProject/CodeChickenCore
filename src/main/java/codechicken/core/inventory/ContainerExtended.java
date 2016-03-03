@@ -1,21 +1,20 @@
 package codechicken.core.inventory;
 
+import codechicken.lib.packet.PacketCustom;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import codechicken.lib.packet.PacketCustom;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.inventory.Slot;
-
-public abstract class ContainerExtended extends Container implements ICrafting
-{
+public abstract class ContainerExtended extends Container implements ICrafting {
     public LinkedList<EntityPlayerMP> playerCrafters = new LinkedList<EntityPlayerMP>();
 
     public ContainerExtended() {
@@ -28,16 +27,18 @@ public abstract class ContainerExtended extends Container implements ICrafting
             playerCrafters.add((EntityPlayerMP) icrafting);
             sendContainerAndContentsToPlayer(this, getInventory(), Arrays.asList((EntityPlayerMP) icrafting));
             detectAndSendChanges();
-        } else
+        } else {
             super.onCraftGuiOpened(icrafting);
+        }
     }
 
     @Override
     public void removeCraftingFromCrafters(ICrafting icrafting) {
-        if (icrafting instanceof EntityPlayerMP)
+        if (icrafting instanceof EntityPlayerMP) {
             playerCrafters.remove(icrafting);
-        else
+        } else {
             super.removeCraftingFromCrafters(icrafting);
+        }
     }
 
     @Override
@@ -46,7 +47,8 @@ public abstract class ContainerExtended extends Container implements ICrafting
     }
 
     @Override
-    public void sendAllWindowProperties(Container p_175173_1_, IInventory p_175173_2_) {}
+    public void sendAllWindowProperties(Container p_175173_1_, IInventory p_175173_2_) {
+    }
 
     public void sendContainerAndContentsToPlayer(Container container, List<ItemStack> list, List<EntityPlayerMP> playerCrafters) {
         LinkedList<ItemStack> largeStacks = new LinkedList<ItemStack>();
@@ -55,17 +57,20 @@ public abstract class ContainerExtended extends Container implements ICrafting
             if (stack != null && stack.stackSize > Byte.MAX_VALUE) {
                 list.set(i, null);
                 largeStacks.add(stack);
-            } else
+            } else {
                 largeStacks.add(null);
+            }
         }
 
-        for (EntityPlayerMP player : playerCrafters)
+        for (EntityPlayerMP player : playerCrafters) {
             player.updateCraftingInventory(container, list);
+        }
 
         for (int i = 0; i < largeStacks.size(); i++) {
             ItemStack stack = largeStacks.get(i);
-            if (stack != null)
+            if (stack != null) {
                 sendLargeStack(stack, i, playerCrafters);
+            }
         }
     }
 
@@ -74,25 +79,29 @@ public abstract class ContainerExtended extends Container implements ICrafting
 
     @Override
     public void sendProgressBarUpdate(Container container, int i, int j) {
-        for (EntityPlayerMP player : playerCrafters)
+        for (EntityPlayerMP player : playerCrafters) {
             player.sendProgressBarUpdate(container, i, j);
+        }
     }
 
     @Override
     public void sendSlotContents(Container container, int slot, ItemStack stack) {
-        if (stack != null && stack.stackSize > Byte.MAX_VALUE)
+        if (stack != null && stack.stackSize > Byte.MAX_VALUE) {
             sendLargeStack(stack, slot, playerCrafters);
-        else
-            for (EntityPlayerMP player : playerCrafters)
+        } else {
+            for (EntityPlayerMP player : playerCrafters) {
                 player.sendSlotContents(container, slot, stack);
+            }
+        }
     }
 
     @Override
     public ItemStack slotClick(int par1, int par2, int par3, EntityPlayer player) {
         if (par1 >= 0 && par1 < inventorySlots.size()) {
             Slot slot = getSlot(par1);
-            if (slot instanceof SlotHandleClicks)
+            if (slot instanceof SlotHandleClicks) {
                 return ((SlotHandleClicks) slot).slotClick(this, player, par2, par3);
+            }
         }
         return super.slotClick(par1, par2, par3, player);
     }
@@ -106,13 +115,15 @@ public abstract class ContainerExtended extends Container implements ICrafting
             ItemStack stack = slot.getStack();
             transferredStack = stack.copy();
 
-            if (!doMergeStackAreas(slotIndex, stack))
+            if (!doMergeStackAreas(slotIndex, stack)) {
                 return null;
+            }
 
-            if (stack.stackSize == 0)
+            if (stack.stackSize == 0) {
                 slot.putStack(null);
-            else
+            } else {
                 slot.onSlotChanged();
+            }
         }
 
         return transferredStack;
@@ -123,8 +134,9 @@ public abstract class ContainerExtended extends Container implements ICrafting
         boolean merged = false;
         int slotIndex = reverse ? endIndex - 1 : startIndex;
 
-        if (stack == null)
+        if (stack == null) {
             return false;
+        }
 
         if (stack.isStackable())//search for stacks to increase
         {
@@ -191,11 +203,14 @@ public abstract class ContainerExtended extends Container implements ICrafting
     }
 
     protected void bindPlayerInventory(InventoryPlayer inventoryPlayer, int x, int y) {
-        for (int row = 0; row < 3; row++)
-            for (int col = 0; col < 9; col++)
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 9; col++) {
                 addSlotToContainer(new Slot(inventoryPlayer, col + row * 9 + 9, x + col * 18, y + row * 18));
-        for (int slot = 0; slot < 9; slot++)
+            }
+        }
+        for (int slot = 0; slot < 9; slot++) {
             addSlotToContainer(new Slot(inventoryPlayer, slot, x + slot * 18, y + 58));
+        }
     }
 
     @Override
@@ -204,27 +219,32 @@ public abstract class ContainerExtended extends Container implements ICrafting
     }
 
     public void sendContainerPacket(PacketCustom packet) {
-        for (EntityPlayerMP player : playerCrafters)
+        for (EntityPlayerMP player : playerCrafters) {
             packet.sendToPlayer(player);
+        }
     }
 
     /**
      * May be called from a client packet handler to handle additional info
      */
-    public void handleOutputPacket(PacketCustom packet) {}
+    public void handleOutputPacket(PacketCustom packet) {
+    }
 
     /**
      * May be called from a server packet handler to handle additional info
      */
-    public void handleInputPacket(PacketCustom packet) {}
+    public void handleInputPacket(PacketCustom packet) {
+    }
 
     /**
      * May be called from a server packet handler to handle client input
      */
-    public void handleGuiChange(int ID, int value) {}
+    public void handleGuiChange(int ID, int value) {
+    }
 
     public void sendProgressBarUpdate(int barID, int value) {
-        for (ICrafting crafting : (List<ICrafting>) crafters)
+        for (ICrafting crafting : (List<ICrafting>) crafters) {
             crafting.sendProgressBarUpdate(this, barID, value);
+        }
     }
 }

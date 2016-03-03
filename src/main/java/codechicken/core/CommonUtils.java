@@ -1,16 +1,15 @@
 package codechicken.core;
 
-import java.io.File;
-
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.FMLInjectionData;
 
-public class CommonUtils
-{
+import java.io.File;
+
+public class CommonUtils {
     public static boolean isClient() {
         return FMLCommonHandler.instance().getSide().isClient();
     }
@@ -29,8 +28,9 @@ public class CommonUtils
     }
 
     public static String getRelativePath(File parent, File child) {
-        if (parent.isFile() || !child.getPath().startsWith(parent.getPath()))
+        if (parent.isFile() || !child.getPath().startsWith(parent.getPath())) {
             return null;
+        }
 
         return child.getPath().substring(parent.getPath().length() + 1);
     }

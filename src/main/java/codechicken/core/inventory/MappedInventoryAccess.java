@@ -1,23 +1,20 @@
 package codechicken.core.inventory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IChatComponent;
 
-public class MappedInventoryAccess implements IInventory
-{
-    public static interface InventoryAccessor
-    {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class MappedInventoryAccess implements IInventory {
+    public static interface InventoryAccessor {
         public boolean canAccessSlot(int slot);
     }
 
-    public static final InventoryAccessor fullAccess = new InventoryAccessor()
-    {
+    public static final InventoryAccessor fullAccess = new InventoryAccessor() {
         public boolean canAccessSlot(int slot) {
             return true;
         }
@@ -37,9 +34,11 @@ public class MappedInventoryAccess implements IInventory
         slotMap.clear();
         nextslot:
         for (int i = 0; i < inv.getSizeInventory(); i++) {
-            for (InventoryAccessor a : accessors)
-                if (!a.canAccessSlot(i))
+            for (InventoryAccessor a : accessors) {
+                if (!a.canAccessSlot(i)) {
                     continue nextslot;
+                }
+            }
 
             slotMap.add(i);
         }

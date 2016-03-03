@@ -1,13 +1,11 @@
 package codechicken.core.gui;
 
 import net.minecraft.client.Minecraft;
-
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiCCButton extends GuiWidget
-{
+public class GuiCCButton extends GuiWidget {
     public String text;
     public String actionCommand;
     private boolean isEnabled = true;
@@ -40,12 +38,14 @@ public class GuiCCButton extends GuiWidget
 
     @Override
     public void draw(int mousex, int mousey, float frame) {
-        if (!visible)
+        if (!visible) {
             return;
+        }
 
         drawButtonTex(mousex, mousey);
-        if(text != null)
+        if (text != null) {
             drawText(mousex, mousey);
+        }
     }
 
     public void drawButtonTex(int mousex, int mousey) {
