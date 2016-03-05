@@ -27,7 +27,7 @@ public class CommonUtils {
         return world.getWorldInfo().getWorldName();
     }
 
-    public static int getDimenstion(World world){
+    public static int getDimension(World world){
         return world.provider.getDimensionId();
     }
 
