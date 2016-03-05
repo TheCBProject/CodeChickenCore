@@ -23,6 +23,14 @@ public class CommonUtils {
         return getSaveLocation(DimensionManager.getWorld(dim));
     }
 
+    public static String getWorldName(World world){
+        return world.getWorldInfo().getWorldName();
+    }
+
+    public static int getDimenstion(World world){
+        return world.provider.getDimensionId();
+    }
+
     public static File getMinecraftDir() {
         return (File) FMLInjectionData.data()[6];
     }
