@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CoreCommand implements ICommand {
@@ -71,7 +72,7 @@ public abstract class CoreCommand implements ICommand {
 
     @Override
     public List<String> getCommandAliases() {
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
