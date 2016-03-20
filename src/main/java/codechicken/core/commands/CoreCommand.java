@@ -1,13 +1,14 @@
 package codechicken.core.commands;
 
 import codechicken.core.ServerUtils;
+import codechicken.lib.packet.PacketCustom;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
@@ -16,18 +17,19 @@ import java.util.List;
 
 public abstract class CoreCommand implements ICommand {
     public static void chatT(ICommandSender sender, String s, Object... params) {
-        sender.addChatMessage(new ChatComponentTranslation(s, params));
+        sender.addChatMessage(new TextComponentTranslation(s, params));
     }
 
     public static void chatOpsT(String s, Object... params) {
         for (EntityPlayerMP player : ServerUtils.getPlayers()) {
-            if (MinecraftServer.getServer().getConfigurationManager().canSendCommands(player.getGameProfile())) {
-                player.addChatMessage(new ChatComponentTranslation(s, params));
+            //TODO Minecraft server instance bs
+            if (PacketCustom.getServerInstance().getPlayerList().canSendCommands(player.getGameProfile())) {
+                player.addChatMessage(new TextComponentTranslation(s, params));
             }
         }
     }
 
-    public abstract boolean OPOnly();
+    public abstract boolean isOpOnly();
 
     @Override
     public String getCommandUsage(ICommandSender var1) {
@@ -35,7 +37,7 @@ public abstract class CoreCommand implements ICommand {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (args.length < minimumParameters() || args.length == 1 && args[0].equals("help")) {
             printHelp(sender);
             return;
@@ -76,7 +78,7 @@ public abstract class CoreCommand implements ICommand {
     }
 
     @Override
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
         return null;
     }
 
@@ -86,10 +88,10 @@ public abstract class CoreCommand implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender var1) {
-        if (OPOnly()) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender var1) {
+        if (isOpOnly()) {
             if (var1 instanceof EntityPlayer) {
-                return MinecraftServer.getServer().getConfigurationManager().canSendCommands(((EntityPlayer) var1).getGameProfile());
+                return PacketCustom.getServerInstance().getPlayerList().canSendCommands(((EntityPlayer) var1).getGameProfile());
             }
 
             return var1 instanceof MinecraftServer;

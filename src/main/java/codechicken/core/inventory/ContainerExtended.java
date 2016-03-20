@@ -4,10 +4,7 @@ import codechicken.lib.packet.PacketCustom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
@@ -95,15 +92,15 @@ public abstract class ContainerExtended extends Container implements ICrafting {
         }
     }
 
-    @Override
-    public ItemStack slotClick(int par1, int par2, int par3, EntityPlayer player) {
-        if (par1 >= 0 && par1 < inventorySlots.size()) {
-            Slot slot = getSlot(par1);
-            if (slot instanceof SlotHandleClicks) {
-                return ((SlotHandleClicks) slot).slotClick(this, player, par2, par3);
+    @Override//slotClick TODO Update MCP Mappings.
+    public ItemStack func_184996_a(int slot, int dragType, ClickType clickType, EntityPlayer player) {
+        if (slot >= 0 && slot < inventorySlots.size()) {
+            Slot actualSlot = getSlot(slot);
+            if (actualSlot instanceof SlotHandleClicks) {
+                return ((SlotHandleClicks) actualSlot).slotClick(this, player, dragType, clickType);
             }
         }
-        return super.slotClick(par1, par2, par3, player);
+        return super.func_184996_a(slot, dragType, clickType, player);
     }
 
     @Override

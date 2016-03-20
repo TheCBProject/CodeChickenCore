@@ -4,6 +4,7 @@ import codechicken.lib.inventory.InventoryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.fluids.*;
 
 public class FluidUtils {
@@ -12,7 +13,7 @@ public class FluidUtils {
     public static FluidStack lava = new FluidStack(FluidRegistry.LAVA, 1000);
 
     public static boolean fillTankWithContainer(IFluidHandler tank, EntityPlayer player) {
-        ItemStack stack = player.getCurrentEquippedItem();
+        ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
         FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(stack);
 
         if (liquid == null) {
@@ -34,7 +35,7 @@ public class FluidUtils {
     }
 
     public static boolean emptyTankIntoContainer(IFluidHandler tank, EntityPlayer player, FluidStack tankLiquid) {
-        ItemStack stack = player.getCurrentEquippedItem();
+        ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
 
         if (!FluidContainerRegistry.isEmptyContainer(stack)) {
             return false;

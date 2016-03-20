@@ -3,6 +3,7 @@ package codechicken.core.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiCCButton extends GuiWidget {
@@ -32,7 +33,7 @@ public class GuiCCButton extends GuiWidget {
     public void mouseClicked(int x, int y, int button) {
         if (isEnabled && pointInside(x, y) && actionCommand != null) {
             sendAction(actionCommand, button);
-            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
+            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
         }
     }
 
