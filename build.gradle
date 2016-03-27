@@ -28,27 +28,26 @@ configFile.withReader {
 }
 
 repositories {
-	maven {
-		name ="Covers1624 Repo"
-		url = "http://adel.podgeweb.com:1616/maven/"
-	}
+    maven {
+        name = "Covers1624 Repo"
+        url = "http://adel.podgeweb.com:1616/maven/"
+    }
 }
 
 dependencies {
     compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:deobf"
-    compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:universal"
 }
 
-version =  "${project.config.mod_version}." + System.getenv("BUILD_NUMBER") ?: "1"
+version = "${project.config.mod_version}." + System.getenv("BUILD_NUMBER") ?: "1"
 
-println  config.mc_version + "-" + config.forge_version
+println config.mc_version + "-" + config.forge_version
 // Setup the forge minecraft plugin data. Specify the preferred forge/minecraft version here
 minecraft {
     version = config.mc_version + "-" + config.forge_version
     mappings = config.mappings
-	runDir = "run"
-	replace '${mod_version}', project.config.mod_version
-	makeObfSourceJar = false
+    runDir = "run"
+    replace '${mod_version}', project.config.mod_version
+    makeObfSourceJar = false
 }
 
 processResources {
@@ -60,7 +59,7 @@ processResources {
     // Replace properties in info files
     from(sourceSets.main.resources.srcDirs) {
         include '*.info'
-        expand 'version':project.version,'mc_version':config.mc_version,'ccl_version':config.ccl_version
+        expand 'version': project.version, 'mc_version': config.mc_version, 'ccl_version': config.ccl_version
     }
 
     // Move access transformer to META-INF
@@ -125,7 +124,7 @@ uploadArchives {
                         }
                     }
                     developers {
-						developer {
+                        developer {
                             id 'chicken-bones'
                             name 'chicken-bones'
                             roles { role 'developer' }

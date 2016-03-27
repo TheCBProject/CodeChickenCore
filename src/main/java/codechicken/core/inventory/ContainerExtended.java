@@ -92,21 +92,21 @@ public abstract class ContainerExtended extends Container implements ICrafting {
         }
     }
 
-    @Override//slotClick TODO Update MCP Mappings.
-    public ItemStack func_184996_a(int slot, int dragType, ClickType clickType, EntityPlayer player) {
+    @Override
+    public ItemStack slotClick(int slot, int dragType, ClickType clickType, EntityPlayer player) {
         if (slot >= 0 && slot < inventorySlots.size()) {
             Slot actualSlot = getSlot(slot);
             if (actualSlot instanceof SlotHandleClicks) {
                 return ((SlotHandleClicks) actualSlot).slotClick(this, player, dragType, clickType);
             }
         }
-        return super.func_184996_a(slot, dragType, clickType, player);
+        return super.slotClick(slot, dragType, clickType, player);
     }
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotIndex) {
         ItemStack transferredStack = null;
-        Slot slot = (Slot) inventorySlots.get(slotIndex);
+        Slot slot = inventorySlots.get(slotIndex);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack stack = slot.getStack();
@@ -138,7 +138,7 @@ public abstract class ContainerExtended extends Container implements ICrafting {
         if (stack.isStackable())//search for stacks to increase
         {
             while (stack.stackSize > 0 && (reverse ? slotIndex >= startIndex : slotIndex < endIndex)) {
-                Slot slot = (Slot) inventorySlots.get(slotIndex);
+                Slot slot = inventorySlots.get(slotIndex);
                 ItemStack slotStack = slot.getStack();
 
                 if (slotStack != null && slotStack.getItem() == stack.getItem() &&
@@ -168,7 +168,7 @@ public abstract class ContainerExtended extends Container implements ICrafting {
             slotIndex = reverse ? endIndex - 1 : startIndex;
 
             while (stack.stackSize > 0 && (reverse ? slotIndex >= startIndex : slotIndex < endIndex)) {
-                Slot slot = (Slot) this.inventorySlots.get(slotIndex);
+                Slot slot = this.inventorySlots.get(slotIndex);
 
                 if (!slot.getHasStack() && slot.isItemValid(stack)) {
                     int maxStackSize = Math.min(stack.getMaxStackSize(), slot.getSlotStackLimit());
@@ -240,7 +240,7 @@ public abstract class ContainerExtended extends Container implements ICrafting {
     }
 
     public void sendProgressBarUpdate(int barID, int value) {
-        for (ICrafting crafting : (List<ICrafting>) crafters) {
+        for (ICrafting crafting : crafters) {
             crafting.sendProgressBarUpdate(this, barID, value);
         }
     }

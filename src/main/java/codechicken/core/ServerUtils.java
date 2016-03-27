@@ -55,7 +55,7 @@ public class ServerUtils extends CommonUtils {
 
         //try and access it in the cache without forcing a save
         username = username.toLowerCase(Locale.ROOT);
-        ProfileEntry cachedEntry = (ProfileEntry) mc().getPlayerProfileCache().usernameToProfileEntryMap.get(username);
+        ProfileEntry cachedEntry = mc().getPlayerProfileCache().usernameToProfileEntryMap.get(username);
         if (cachedEntry != null) {
             return cachedEntry.getGameProfile();
         }

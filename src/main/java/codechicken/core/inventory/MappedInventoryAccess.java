@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class MappedInventoryAccess implements IInventory {
-    public static interface InventoryAccessor {
-        public boolean canAccessSlot(int slot);
+    public interface InventoryAccessor {
+        boolean canAccessSlot(int slot);
     }
 
     public static final InventoryAccessor fullAccess = new InventoryAccessor() {

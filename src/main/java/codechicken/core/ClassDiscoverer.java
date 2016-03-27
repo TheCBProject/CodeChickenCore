@@ -31,7 +31,7 @@ public class ClassDiscoverer {
         }
 
         classes = new ArrayList<Class<?>>();
-        modClassLoader = (ModClassLoader) Loader.instance().getModClassLoader();
+        modClassLoader = Loader.instance().getModClassLoader();
     }
 
     public ClassDiscoverer(Class<?>... superclasses) {
