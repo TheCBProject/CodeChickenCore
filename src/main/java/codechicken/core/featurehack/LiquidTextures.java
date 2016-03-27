@@ -38,7 +38,7 @@ public class LiquidTextures {
 
     @SubscribeEvent
     public void postStitch(TextureStitchEvent.Post event) {
-        Map<String, TextureAtlasSprite> uploadedSprites = event.map.mapUploadedSprites;
+        Map<String, TextureAtlasSprite> uploadedSprites = event.getMap().mapUploadedSprites;
         if (replaceWater) {
             uploadedSprites.put("minecraft:blocks/water_still", newTextures[0]);
             uploadedSprites.put("minecraft:blocks/water_flow", newTextures[1]);

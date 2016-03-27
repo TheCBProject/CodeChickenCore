@@ -29,11 +29,11 @@ public class CCCEventHandler {
         }
     }
 
-    @SubscribeEvent
+    //@SubscribeEvent //TODO Rewrite or get rid of.
     @SideOnly(Side.CLIENT)
     public void posGuiRender(GuiScreenEvent.DrawScreenEvent.Post event) {
-        if (event.gui instanceof GuiModList) {
-            GuiModListScroll.draw((GuiModList) event.gui, event.mouseX, event.mouseY);
+        if (event.getGui() instanceof GuiModList) {
+            GuiModListScroll.draw((GuiModList) event.getGui(), event.getMouseX(), event.getMouseY());
         }
     }
 }
