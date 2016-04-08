@@ -39,7 +39,6 @@ public class CommonUtils {
         if (parent.isFile() || !child.getPath().startsWith(parent.getPath())) {
             return null;
         }
-
         return child.getPath().substring(parent.getPath().length() + 1);
     }
 

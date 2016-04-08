@@ -15,7 +15,7 @@ public abstract class ContainerExtended extends Container implements ICrafting {
     public LinkedList<EntityPlayerMP> playerCrafters = new LinkedList<EntityPlayerMP>();
 
     public ContainerExtended() {
-        crafters.add(this);
+        listeners.add(this);
     }
 
     @Override
@@ -30,11 +30,11 @@ public abstract class ContainerExtended extends Container implements ICrafting {
     }
 
     @Override
-    public void removeCraftingFromCrafters(ICrafting icrafting) {
+    public void removeListener(ICrafting icrafting) {
         if (icrafting instanceof EntityPlayerMP) {
             playerCrafters.remove(icrafting);
         } else {
-            super.removeCraftingFromCrafters(icrafting);
+            super.removeListener(icrafting);
         }
     }
 
@@ -240,7 +240,7 @@ public abstract class ContainerExtended extends Container implements ICrafting {
     }
 
     public void sendProgressBarUpdate(int barID, int value) {
-        for (ICrafting crafting : crafters) {
+        for (ICrafting crafting : listeners) {
             crafting.sendProgressBarUpdate(this, barID, value);
         }
     }
