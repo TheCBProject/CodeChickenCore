@@ -2,6 +2,7 @@ package codechicken.core.asm;
 
 import codechicken.core.CCUpdateChecker;
 import codechicken.core.featurehack.LiquidTextures;
+import codechicken.core.fluid.ExtendedFluidTank;
 import codechicken.core.internal.CCCEventHandler;
 import codechicken.core.launch.CodeChickenCorePlugin;
 import codechicken.lib.config.ConfigFile;
