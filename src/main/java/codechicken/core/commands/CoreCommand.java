@@ -1,7 +1,6 @@
 package codechicken.core.commands;
 
 import codechicken.core.ServerUtils;
-import codechicken.lib.packet.PacketCustom;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,7 @@ public abstract class CoreCommand implements ICommand {
 
     public static void chatOpsT(String s, Object... params) {
         for (EntityPlayerMP player : ServerUtils.getPlayers()) {
-            //TODO Minecraft server instance bs
-            if (PacketCustom.getServerInstance().getPlayerList().canSendCommands(player.getGameProfile())) {
+            if (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().canSendCommands(player.getGameProfile())) {
                 player.addChatMessage(new TextComponentTranslation(s, params));
             }
         }
@@ -32,7 +31,7 @@ public abstract class CoreCommand implements ICommand {
     public abstract boolean isOpOnly();
 
     @Override
-    public String getCommandUsage(ICommandSender var1) {
+    public String getCommandUsage(ICommandSender commandSender) {
         return "/" + getCommandName() + " help";
     }
 
@@ -88,13 +87,13 @@ public abstract class CoreCommand implements ICommand {
     }
 
     @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender var1) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender commandSender) {
         if (isOpOnly()) {
-            if (var1 instanceof EntityPlayer) {
-                return PacketCustom.getServerInstance().getPlayerList().canSendCommands(((EntityPlayer) var1).getGameProfile());
+            if (commandSender instanceof EntityPlayer) {
+                return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().canSendCommands(((EntityPlayer) commandSender).getGameProfile());
             }
 
-            return var1 instanceof MinecraftServer;
+            return commandSender instanceof MinecraftServer;
         }
         return true;
     }

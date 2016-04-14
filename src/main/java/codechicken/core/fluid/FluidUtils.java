@@ -90,4 +90,8 @@ public class FluidUtils {
 	    }
         return light;
     }
+
+    public static FluidStack emptyFluid() {
+        return new FluidStack(water, 0);
+    }
 }

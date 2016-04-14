@@ -33,7 +33,7 @@ public class GuiCCButton extends GuiWidget {
     public void mouseClicked(int x, int y, int button) {
         if (isEnabled && pointInside(x, y) && actionCommand != null) {
             sendAction(actionCommand, button);
-            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ui_button_click, 1.0F));
+            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         }
     }
 

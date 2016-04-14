@@ -1,22 +1,21 @@
 package codechicken.core.fluid;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidTank;
 
 public class ExtendedFluidTank implements IFluidTank {
-
     private FluidStack fluid;
     private boolean changeType;
     private int capacity;
 
     public ExtendedFluidTank(FluidStack type, int capacity) {
         if (type == null) {
-            fluid = null;
+            type = FluidUtils.emptyFluid();
             changeType = true;
-        } else {
-            fluid = FluidUtils.copy(type, 0);
         }
+        fluid = FluidUtils.copy(type, 0);
         this.capacity = capacity;
     }
 
@@ -26,9 +25,6 @@ public class ExtendedFluidTank implements IFluidTank {
 
     @Override
     public FluidStack getFluid() {
-        if (fluid == null) {
-            return null;
-        }
         return fluid.copy();
     }
 
@@ -38,7 +34,7 @@ public class ExtendedFluidTank implements IFluidTank {
     }
 
     public boolean canAccept(FluidStack type) {
-        return fluid != null && type == null || !type.getFluid().getName().equals("none") || (fluid.amount == 0 && changeType) || fluid.isFluidEqual(type);
+        return type == null || (fluid.amount == 0 && changeType) || fluid.isFluidEqual(type);
     }
 
     @Override
@@ -51,11 +47,8 @@ public class ExtendedFluidTank implements IFluidTank {
             return 0;
         }
 
-        int tofill = Math.min(getCapacity() - (fluid != null ? fluid.amount : 0), resource.amount);
+        int tofill = Math.min(getCapacity() - fluid.amount, resource.amount);
         if (doFill && tofill > 0) {
-            if (fluid == null) {
-                fluid = FluidUtils.copy(resource, tofill);
-            }
             if (!fluid.isFluidEqual(resource)) {
                 fluid = FluidUtils.copy(resource, fluid.amount + tofill);
             } else {
@@ -69,9 +62,6 @@ public class ExtendedFluidTank implements IFluidTank {
 
     @Override
     public FluidStack drain(int maxDrain, boolean doDrain) {
-        if (fluid == null) {
-            return null;
-        }
         if (fluid.amount == 0 || maxDrain <= 0) {
             return null;
         }
@@ -105,7 +95,7 @@ public class ExtendedFluidTank implements IFluidTank {
 
     @Override
     public int getFluidAmount() {
-        return fluid != null ? fluid.amount : 0;
+        return fluid.amount;
     }
 
     @Override

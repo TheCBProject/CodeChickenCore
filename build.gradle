@@ -30,7 +30,7 @@ configFile.withReader {
 repositories {
     maven {
         name = "Covers1624 Repo"
-        url = "http://adel.podgeweb.com:1616/maven/"
+        url = "http://chickenbones.net/maven/"
     }
 }
 
@@ -97,7 +97,7 @@ artifacts {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file:///var/www/maven")
+            repository(url: "file://" + System.getProperty("local_maven"))
             pom {
                 groupId = project.group
                 version = project.version
@@ -106,20 +106,20 @@ uploadArchives {
                     name project.archivesBaseName
                     packaging 'jar'
                     description 'CodeChickenCore'
-                    url 'https://github.com/covers1624/CodeChickenCore'
+                    url 'https://github.com/TheCBProject/CodeChickenCore'
                     scm {
-                        url 'https://github.com/covers1624/CodeChickenCore'
-                        connection 'scm:git:git@github.com:covers1624/CodeChickenCore.git'
-                        developerConnection 'scm:git:git@github.com:covers1624/CodeChickenCore.git'
+                        url 'https://github.com/TheCBProject/CodeChickenCore'
+                        connection 'scm:git:git@github.com:TheCBProject/CodeChickenCore.git'
+                        developerConnection 'scm:git:git@github.com:TheCBProject/CodeChickenCore.git'
                     }
                     issueManagement {
                         system 'github'
-                        url 'https://github.com/covers1624/CodeChickenCore/issues'
+                        url 'https://github.com/TheCBProject/CodeChickenCore/issues'
                     }
                     licenses {
                         license {
                             name 'License'
-                            url 'https://raw.githubusercontent.com/covers1624/CodeChickenCore/master/LICENSE.txt'
+                            url 'https://raw.githubusercontent.com/TheCBProject/CodeChickenCore/master/LICENSE.txt'
                             distribution 'repo'
                         }
                     }
