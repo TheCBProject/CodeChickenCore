@@ -4,6 +4,7 @@ import codechicken.core.asm.CodeChickenCoreModContainer;
 import codechicken.core.asm.DelegatedTransformer;
 import codechicken.core.asm.MCPDeobfuscationTransformer;
 import codechicken.core.asm.TweakTransformer;
+import codechicken.lib.asm.ASMHelper;
 import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import net.minecraftforge.fml.common.versioning.VersionParser;
 import net.minecraftforge.fml.relauncher.CoreModManager;
@@ -94,7 +95,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
     @Override
     public String[] getASMTransformerClass() {
         versionCheck(mcVersion, "CodeChickenCore");
-        return new String[] { "codechicken.core.asm.InterfaceDependancyTransformer", "codechicken.core.asm.TweakTransformer", "codechicken.core.asm.DelegatedTransformer", "codechicken.core.asm.DefaultImplementationTransformer" };
+        return new String[] { /*"codechicken.core.asm.InterfaceDependancyTransformer", */"codechicken.core.asm.TweakTransformer", "codechicken.core.asm.DelegatedTransformer", "codechicken.core.asm.DefaultImplementationTransformer" };
     }
 
     @Override
@@ -121,7 +122,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
         CodeChickenCoreModContainer.loadConfig();
         TweakTransformer.load();
         scanCodeChickenMods();
-
+        new ASMHelper();
         return null;
     }
 
