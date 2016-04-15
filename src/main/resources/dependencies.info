@@ -1,5 +1,5 @@
 {
-	"repo": "http://adel.podgeweb.com:1616/maven/codechicken/CodeChickenLib/${mc_version}-${ccl_version}/",
+	"repo": "http://chickenbones.net/maven/codechicken/CodeChickenLib/${mc_version}-${ccl_version}/",
 	"packed": "lib/",
 	"file": "CodeChickenLib-${mc_version}-${ccl_version}-universal.jar",
 	"dev": "CodeChickenLib-${mc_version}-${ccl_version}-dev.jar",
