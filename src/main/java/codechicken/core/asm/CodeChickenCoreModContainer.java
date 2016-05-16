@@ -45,7 +45,7 @@ public class CodeChickenCoreModContainer extends DummyModContainer {
         }
         if (!getVersion().contains("$")) {
             deps.add(VersionParser.parseVersionReference("NotEnoughItems@[2.0.1,)"));
-            deps.add(VersionParser.parseVersionReference("EnderStorage@[1.4.6,)"));
+            deps.add(VersionParser.parseVersionReference("EnderStorage@[2.0.1,)"));
             deps.add(VersionParser.parseVersionReference("ChickenChunks@[2.0.1,)"));
             deps.add(VersionParser.parseVersionReference("Translocator@[1.1.2,)"));
             deps.add(VersionParser.parseVersionReference("WR-CBE|Core@[1.4.2,)"));
