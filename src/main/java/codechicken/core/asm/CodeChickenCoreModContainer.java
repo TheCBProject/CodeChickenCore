@@ -2,10 +2,10 @@ package codechicken.core.asm;
 
 import codechicken.core.CCUpdateChecker;
 import codechicken.core.featurehack.LiquidTextures;
-import codechicken.core.fluid.ExtendedFluidTank;
 import codechicken.core.internal.CCCEventHandler;
 import codechicken.core.launch.CodeChickenCorePlugin;
 import codechicken.lib.config.ConfigFile;
+import codechicken.lib.render.HitBoxRenderHandler;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.launchwrapper.Launch;
@@ -73,6 +73,7 @@ public class CodeChickenCoreModContainer extends DummyModContainer {
                 CCUpdateChecker.updateCheck(getModId());
             }
             MinecraftForge.EVENT_BUS.register(new CCCEventHandler());
+            HitBoxRenderHandler.init();
         }
     }
 

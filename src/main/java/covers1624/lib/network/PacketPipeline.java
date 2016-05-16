@@ -32,6 +32,16 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
     private EnumMap<Side, FMLEmbeddedChannel> channels;
     private LinkedList<Class<? extends AbstractPacket>> packets = new LinkedList<Class<? extends AbstractPacket>>();
     private boolean isPostInitialised = false;
+    private boolean sortPackets;
+
+    public PacketPipeline() {
+        this(true);
+    }
+
+    //With this set to false packet descriptors are set based on the order they are registered in.
+    public PacketPipeline(boolean sort) {
+        sortPackets = sort;
+    }
 
     /**
      * Register your packet with the pipeline. Discriminators are automatically set.
@@ -123,18 +133,20 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
         }
 
         this.isPostInitialised = true;
-        Collections.sort(this.packets, new Comparator<Class<? extends AbstractPacket>>() {
+        if (sortPackets) {
+            Collections.sort(this.packets, new Comparator<Class<? extends AbstractPacket>>() {
 
-            @Override
-            public int compare(Class<? extends AbstractPacket> clazz1, Class<? extends AbstractPacket> clazz2) {
-                int com = String.CASE_INSENSITIVE_ORDER.compare(clazz1.getCanonicalName(), clazz2.getCanonicalName());
-                if (com == 0) {
-                    com = clazz1.getCanonicalName().compareTo(clazz2.getCanonicalName());
+                @Override
+                public int compare(Class<? extends AbstractPacket> clazz1, Class<? extends AbstractPacket> clazz2) {
+                    int com = String.CASE_INSENSITIVE_ORDER.compare(clazz1.getCanonicalName(), clazz2.getCanonicalName());
+                    if (com == 0) {
+                        com = clazz1.getCanonicalName().compareTo(clazz2.getCanonicalName());
+                    }
+
+                    return com;
                 }
-
-                return com;
-            }
-        });
+            });
+        }
     }
 
     private EntityPlayer getCurrentPlayer(ChannelHandlerContext context) {

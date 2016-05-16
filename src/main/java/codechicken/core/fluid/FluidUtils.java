@@ -85,9 +85,9 @@ public class FluidUtils {
             return 0;
         }
         int light = fluid.getLuminosity(stack);
-	    if (fluid.isGaseous()) {
-		    light = (int) (light * density);
-	    }
+        if (fluid.isGaseous()) {
+            light = (int) (light * density);
+        }
         return light;
     }
 

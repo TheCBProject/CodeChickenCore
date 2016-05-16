@@ -23,11 +23,11 @@ public class CommonUtils {
         return getSaveLocation(DimensionManager.getWorld(dim));
     }
 
-    public static String getWorldName(World world){
+    public static String getWorldName(World world) {
         return world.getWorldInfo().getWorldName();
     }
 
-    public static int getDimension(World world){
+    public static int getDimension(World world) {
         return world.provider.getDimension();
     }
 

@@ -18,8 +18,7 @@ public class ClientUtils extends CommonUtils {
         return mc().theWorld;
     }
 
-    public static boolean inWorld()
-    {
+    public static boolean inWorld() {
         return mc().getNetHandler() != null;
     }
 

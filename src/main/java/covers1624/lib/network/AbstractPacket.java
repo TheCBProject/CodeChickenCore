@@ -35,7 +35,7 @@ public abstract class AbstractPacket {
 
     /**
      * Handle a packet on the client side. Note this occurs after decoding has completed.
-     *
+     * <p/>
      * Called on the client thread.
      *
      * @param player the player reference
@@ -44,7 +44,7 @@ public abstract class AbstractPacket {
 
     /**
      * Handle a packet on the server side. Note this occurs after decoding has completed.
-     *
+     * <p/>
      * Called on the server thread.
      *
      * @param player the player reference
