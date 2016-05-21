@@ -4,6 +4,7 @@ import codechicken.core.launch.CodeChickenCorePlugin;
 import com.google.common.base.Function;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.versioning.ComparableVersion;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
@@ -86,6 +87,7 @@ public class CCUpdateChecker {
                 }
                 ComparableVersion newVersion = new ComparableVersion(ret.substring(5));
                 if (newVersion.compareTo(new ComparableVersion(version)) > 0) {
+                    ModDescriptionEnhancer.setUpdateStatus(mod, ForgeVersion.Status.OUTDATED, newVersion);
                     addUpdateMessage("Version " + newVersion + " of " + mod + " is available");
                 }
                 return null;
