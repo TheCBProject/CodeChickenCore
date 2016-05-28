@@ -558,19 +558,14 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
             addClasspath(coreMod);
 
             try {
-                Class<CoreModManager> c = CoreModManager.class;
                 if (!mfAttributes.containsKey(new Attributes.Name("FMLCorePluginContainsFMLMod"))) {
                     FMLRelaunchLog.finer("Adding %s to the list of known coremods, it will not be examined again", coreMod.getName());
-                    Field f_loadedCoremods = c.getDeclaredField("ignoredModFiles");
-                    f_loadedCoremods.setAccessible(true);
-                    ((List) f_loadedCoremods.get(null)).add(coreMod.getName());
+                    CoreModManager.getIgnoredMods().add(coreMod.getName());
                 } else {
                     FMLRelaunchLog.finer("Found FMLCorePluginContainsFMLMod marker in %s, it will be examined later for regular @Mod instances", coreMod.getName());
-                    Field f_reparsedCoremods = c.getDeclaredField("candidateModFiles");
-                    f_reparsedCoremods.setAccessible(true);
-                    ((List) f_reparsedCoremods.get(null)).add(coreMod.getName());
+                    CoreModManager.getReparseableCoremods().add(coreMod.getName());
                 }
-                Method m_loadCoreMod = c.getDeclaredMethod("loadCoreMod", LaunchClassLoader.class, String.class, File.class);
+                Method m_loadCoreMod = CoreModManager.class.getDeclaredMethod("loadCoreMod", LaunchClassLoader.class, String.class, File.class);
                 m_loadCoreMod.setAccessible(true);
                 m_loadCoreMod.invoke(null, loader, fmlCorePlugin, coreMod);
             } catch (Exception e) {

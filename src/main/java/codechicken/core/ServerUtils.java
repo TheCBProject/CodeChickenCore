@@ -6,23 +6,25 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerProfileCache.ProfileEntry;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class ServerUtils extends CommonUtils {
+
     public static MinecraftServer mc() {
-        return MinecraftServer.getServer();
+        return FMLCommonHandler.instance().getMinecraftServerInstance();
     }
 
     public static EntityPlayerMP getPlayer(String playername) {
-        return mc().getConfigurationManager().getPlayerByUsername(playername);
+        return mc().getPlayerList().getPlayerByUsername(playername);
     }
 
     public static List<EntityPlayerMP> getPlayers() {
-        return mc().getConfigurationManager().playerEntityList;
+        return mc().getPlayerList().getPlayerList();
     }
 
     public static ArrayList<EntityPlayer> getPlayersInDimension(int dimension) {
@@ -53,7 +55,7 @@ public class ServerUtils extends CommonUtils {
 
         //try and access it in the cache without forcing a save
         username = username.toLowerCase(Locale.ROOT);
-        ProfileEntry cachedEntry = (ProfileEntry) mc().getPlayerProfileCache().usernameToProfileEntryMap.get(username);
+        ProfileEntry cachedEntry = mc().getPlayerProfileCache().usernameToProfileEntryMap.get(username);
         if (cachedEntry != null) {
             return cachedEntry.getGameProfile();
         }
@@ -64,14 +66,14 @@ public class ServerUtils extends CommonUtils {
 
     public static boolean isPlayerOP(String username) {
         GameProfile prof = getGameProfile(username);
-        return prof != null && mc().getConfigurationManager().canSendCommands(prof);
+        return prof != null && mc().getPlayerList().canSendCommands(prof);
     }
 
     public static boolean isPlayerOwner(String username) {
         return mc().isSinglePlayer() && mc().getServerOwner().equalsIgnoreCase(username);
     }
 
-    public static void sendChatToAll(IChatComponent msg) {
+    public static void sendChatToAll(ITextComponent msg) {
         for (EntityPlayer p : getPlayers()) {
             p.addChatComponentMessage(msg);
         }

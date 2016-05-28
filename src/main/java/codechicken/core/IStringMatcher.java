@@ -1,5 +1,5 @@
 package codechicken.core;
 
 public interface IStringMatcher {
-    public boolean matches(String test);
+    boolean matches(String test);
 }

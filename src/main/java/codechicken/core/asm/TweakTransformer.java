@@ -52,7 +52,7 @@ public class TweakTransformer implements IClassTransformer, Opcodes {
         }*/
 
         if (tweaks.getTag("finiteWater").setComment("If set to true two adjacent water source blocks will not generate a third.").getBooleanValue(false)) {
-            transformer.add(new MethodTransformer(new ObfMapping("net/minecraft/block/BlockDynamicLiquid", "func_149674_a", "(Lnet/minecraft/world/World;IIILjava/util/Random;)V")) {
+            transformer.add(new MethodTransformer(new ObfMapping("net/minecraft/block/BlockDynamicLiquid", "func_180650_b", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Ljava/util/Random;)V")) {
                 @Override
                 public void transform(MethodNode mv) {
                     InsnListSection key = findOnce(mv.instructions, blocks.get("finiteWater").list);

@@ -16,19 +16,19 @@ public class CommonUtils {
 
     public static File getSaveLocation(World world) {
         File base = DimensionManager.getCurrentSaveRootDirectory();
-        return world.provider.getDimensionId() == 0 ? base : new File(base, world.provider.getSaveFolder());
+        return world.provider.getDimension() == 0 ? base : new File(base, world.provider.getSaveFolder());
     }
 
     public static File getSaveLocation(int dim) {
         return getSaveLocation(DimensionManager.getWorld(dim));
     }
 
-    public static String getWorldName(World world){
+    public static String getWorldName(World world) {
         return world.getWorldInfo().getWorldName();
     }
 
-    public static int getDimension(World world){
-        return world.provider.getDimensionId();
+    public static int getDimension(World world) {
+        return world.provider.getDimension();
     }
 
     public static File getMinecraftDir() {
@@ -39,7 +39,6 @@ public class CommonUtils {
         if (parent.isFile() || !child.getPath().startsWith(parent.getPath())) {
             return null;
         }
-
         return child.getPath().substring(parent.getPath().length() + 1);
     }
 

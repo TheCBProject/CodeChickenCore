@@ -4,11 +4,8 @@ import codechicken.core.internal.CCCEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -21,8 +18,7 @@ public class ClientUtils extends CommonUtils {
         return mc().theWorld;
     }
 
-    public static boolean inWorld()//TODO unused
-    {
+    public static boolean inWorld() {
         return mc().getNetHandler() != null;
     }
 
@@ -56,12 +52,11 @@ public class ClientUtils extends CommonUtils {
 
     @SideOnly(Side.CLIENT)
     public static String getWorldSaveName() {
-        return mc().isSingleplayer() ? MinecraftServer.getServer().getFolderName() : null;
+        return mc().isSingleplayer() ? FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName() : null;
     }
 
+    @Deprecated
     public static void enhanceSupportersList(Object mod) {
-        ModContainer mc = FMLCommonHandler.instance().findContainerFor(mod);
-        mc.getMetadata().description = mc.getMetadata().description.replace("Supporters:", EnumChatFormatting.AQUA + "Supporters:");
-        GuiModListScroll.register(mod);
+        ModDescriptionEnhancer.enhanceMod(mod);
     }
 }
