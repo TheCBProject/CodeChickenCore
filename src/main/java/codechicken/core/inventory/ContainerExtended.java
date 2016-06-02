@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class ContainerExtended extends Container implements ICrafting {
+public abstract class ContainerExtended extends Container implements IContainerListener {
     public LinkedList<EntityPlayerMP> playerCrafters = new LinkedList<EntityPlayerMP>();
 
     public ContainerExtended() {
@@ -19,18 +19,18 @@ public abstract class ContainerExtended extends Container implements ICrafting {
     }
 
     @Override
-    public void onCraftGuiOpened(ICrafting icrafting) {
+    public void addListener(IContainerListener icrafting) {
         if (icrafting instanceof EntityPlayerMP) {
             playerCrafters.add((EntityPlayerMP) icrafting);
             sendContainerAndContentsToPlayer(this, getInventory(), Arrays.asList((EntityPlayerMP) icrafting));
             detectAndSendChanges();
         } else {
-            super.onCraftGuiOpened(icrafting);
+            super.addListener(icrafting);
         }
     }
 
     @Override
-    public void removeListener(ICrafting icrafting) {
+    public void removeListener(IContainerListener icrafting) {
         if (icrafting instanceof EntityPlayerMP) {
             playerCrafters.remove(icrafting);
         } else {
@@ -240,7 +240,7 @@ public abstract class ContainerExtended extends Container implements ICrafting {
     }
 
     public void sendProgressBarUpdate(int barID, int value) {
-        for (ICrafting crafting : listeners) {
+        for (IContainerListener crafting : listeners) {
             crafting.sendProgressBarUpdate(this, barID, value);
         }
     }

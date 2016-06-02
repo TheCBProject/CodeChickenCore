@@ -19,7 +19,7 @@ public class ClientUtils extends CommonUtils {
     }
 
     public static boolean inWorld() {
-        return mc().getNetHandler() != null;
+        return mc().getConnection() != null;
     }
 
     public static void openSMPGui(int windowId, GuiScreen gui) {
@@ -39,7 +39,7 @@ public class ClientUtils extends CommonUtils {
 
     public static String getServerIP() {
         try {
-            NetworkManager networkManager = mc().getNetHandler().getNetworkManager();
+            NetworkManager networkManager = mc().getConnection().getNetworkManager();
             String s = networkManager.getRemoteAddress().toString();
             s = s.substring(s.indexOf("/") + 1);
             return s;

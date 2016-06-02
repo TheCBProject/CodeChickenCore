@@ -44,7 +44,7 @@ public class ServerUtils extends CommonUtils {
         packetSender.sendPacket(player, player.currentWindowId);
         player.openContainer = container;
         player.openContainer.windowId = player.currentWindowId;
-        player.openContainer.onCraftGuiOpened(player);
+        player.openContainer.addListener(player);
     }
 
     public static GameProfile getGameProfile(String username) {
