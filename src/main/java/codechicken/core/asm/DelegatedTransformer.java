@@ -20,6 +20,7 @@ import java.util.zip.ZipEntry;
 
 import static codechicken.core.launch.CodeChickenCorePlugin.logger;
 
+@Deprecated
 public class DelegatedTransformer implements IClassTransformer {
     private static ArrayList<IClassTransformer> delegatedTransformers;
     private static Method m_defineClass;

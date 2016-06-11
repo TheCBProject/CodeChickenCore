@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+@Deprecated
 public class DefaultImplementationTransformer implements IClassTransformer {
     private static LaunchClassLoader cl = (LaunchClassLoader) ClassHeirachyManager.class.getClassLoader();
 

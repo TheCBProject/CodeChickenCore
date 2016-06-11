@@ -13,6 +13,7 @@ import java.util.Map;
 
 import static codechicken.lib.asm.InsnComparator.findOnce;
 
+@Deprecated
 public class TweakTransformer implements IClassTransformer, Opcodes {
     private static ModularASMTransformer transformer = new ModularASMTransformer();
     private static Map<String, ASMBlock> blocks = ASMReader.loadResource("/assets/codechickencore/asm/tweaks.asm");
