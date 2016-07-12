@@ -3,6 +3,7 @@ package codechicken.core.asm;
 import codechicken.core.CCUpdateChecker;
 import codechicken.core.featurehack.LiquidTextures;
 import codechicken.core.internal.CCCEventHandler;
+import codechicken.core.internal.CCCrashCallable;
 import codechicken.core.launch.CodeChickenCorePlugin;
 import codechicken.lib.config.ConfigFile;
 import codechicken.lib.render.HitBoxRenderHandler;
@@ -11,6 +12,7 @@ import com.google.common.eventbus.Subscribe;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.DummyModContainer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.MetadataCollection;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -61,6 +63,7 @@ public class CodeChickenCoreModContainer extends DummyModContainer {
 
     @Subscribe
     public void preInit(FMLPreInitializationEvent event) {
+        FMLCommonHandler.instance().registerCrashCallable(new CCCrashCallable());
         if (event.getSide().isClient()) {
             LiquidTextures.init();
         }
