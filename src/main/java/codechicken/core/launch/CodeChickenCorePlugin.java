@@ -5,6 +5,7 @@ import codechicken.core.asm.DelegatedTransformer;
 import codechicken.core.asm.MCPDeobfuscationTransformer;
 import codechicken.core.asm.TweakTransformer;
 import codechicken.lib.asm.ASMHelper;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import net.minecraftforge.fml.common.versioning.VersionParser;
 import net.minecraftforge.fml.relauncher.CoreModManager;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.fml.relauncher.IFMLCallHook;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,7 +32,7 @@ import java.util.jar.Manifest;
 
 @TransformerExclusions(value = { "codechicken.core.asm", "codechicken.obfuscator" })
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
-    public static final String mcVersion = "[1.9.4]";
+    public static final String mcVersion = "[1.9.4,1.10.2]";
     public static final String version = "${mod_version}";
 
     public static File minecraftDir;
@@ -47,6 +49,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
 
         DepLoader.load();
         injectDeobfPlugin();
+        CodeChickenCoreModContainer.loadConfig();
     }
 
     private void injectDeobfPlugin() {
@@ -62,15 +65,23 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
         }
     }
 
+    @Deprecated
     public static void versionCheck(String reqVersion, String mod) {
         String mcVersion = (String) FMLInjectionData.data()[4];
         if (!VersionParser.parseRange(reqVersion).containsVersion(new DefaultArtifactVersion(mcVersion))) {
+
+            if (CodeChickenCoreModContainer.config.getTag("ignoreInvalidMCVersion").getBooleanValue(false)) {
+                FMLLog.log("CodeChickenCore", Level.FATAL, "CodeChickenCore is attempting to load mod [%s] for an invalid version of minecraft as per the set config value. If this should not be happening check your CodeChickenCore Config for \"ignoreInvalidMCVersion\".", mod);
+                return;
+            }
+
             String err = "This version of " + mod + " does not support minecraft version " + mcVersion;
             logger.error(err);
 
             JEditorPane ep = new JEditorPane("text/html", "<html>" +
                     err +
                     "<br>Remove it from your coremods folder and check <a href=\"http://www.minecraftforum.net/topic/909223-\">here</a> for updates" +
+                    "<br>If you are %100 sure you know what you are doing optionally you can set \"ignoreInvalidMCVersion\" in the CodeChickenCore Config to true." +
                     "</html>");
 
             ep.setEditable(false);
@@ -94,7 +105,7 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
 
     @Override
     public String[] getASMTransformerClass() {
-        versionCheck(mcVersion, "CodeChickenCore");
+        //versionCheck(mcVersion, "CodeChickenCore");
         return new String[] { /*"codechicken.core.asm.InterfaceDependancyTransformer", */"codechicken.core.asm.TweakTransformer", "codechicken.core.asm.DelegatedTransformer", "codechicken.core.asm.DefaultImplementationTransformer" };
     }
 
@@ -119,7 +130,6 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
 
     @Override
     public Void call() {
-        CodeChickenCoreModContainer.loadConfig();
         TweakTransformer.load();
         scanCodeChickenMods();
         new ASMHelper();

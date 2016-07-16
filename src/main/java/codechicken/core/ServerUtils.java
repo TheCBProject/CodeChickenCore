@@ -5,8 +5,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.server.management.PlayerProfileCache.ProfileEntry;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.ArrayList;
@@ -36,6 +39,10 @@ public class ServerUtils extends CommonUtils {
         }
 
         return players;
+    }
+
+    public static boolean isPlayerLoadingChunk(EntityPlayerMP player, ChunkPos chunk){
+        return player.getServerWorld().thePlayerManager.getEntry(chunk.chunkXPos, chunk.chunkZPos) != null;
     }
 
     public static void openSMPContainer(EntityPlayerMP player, Container container, IGuiPacketSender packetSender) {
