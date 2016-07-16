@@ -48,6 +48,7 @@ minecraft {
     runDir = "run"
     replace '${mod_version}', project.config.mod_version
     makeObfSourceJar = false
+    useDepAts = true
 }
 
 processResources {
