@@ -74,6 +74,7 @@ public class CodeChickenCoreModContainer extends DummyModContainer {
         if (event.getSide().isClient()) {
             if (config.getTag("checkUpdates").getBooleanValue(true)) {
                 CCUpdateChecker.updateCheck(getModId());
+                //ConfigGuiInjector.init();
             }
             MinecraftForge.EVENT_BUS.register(new CCCEventHandler());
             HitBoxRenderHandler.init();
