@@ -19,7 +19,7 @@ public class LiquidTextures {
     public static boolean replaceLava;
     public static boolean replaceWater;
 
-    public static void init() {
+    public static void init() {//TODO Move this to CB's Tweaks.
         replaceWater = TweakTransformer.tweaks.getTag("replaceWaterFX").setComment("Set this to true to use the pre1.5 water textures").getBooleanValue(false);
         replaceLava = TweakTransformer.tweaks.getTag("replaceLavaFX").setComment("Set this to true to use the pre1.5 lava textures").getBooleanValue(false);
         if (replaceWater) {
@@ -36,7 +36,7 @@ public class LiquidTextures {
         }
     }
 
-    @SubscribeEvent
+    //@SubscribeEvent
     public void postStitch(TextureStitchEvent.Post event) {
         Map<String, TextureAtlasSprite> uploadedSprites = event.getMap().mapUploadedSprites;
         if (replaceWater) {
