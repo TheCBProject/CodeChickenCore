@@ -42,7 +42,7 @@ public class ServerUtils extends CommonUtils {
     }
 
     public static boolean isPlayerLoadingChunk(EntityPlayerMP player, ChunkPos chunk){
-        return player.getServerWorld().thePlayerManager.getEntry(chunk.chunkXPos, chunk.chunkZPos) != null;
+        return player.getServerWorld().getPlayerChunkMap().getEntry(chunk.chunkXPos, chunk.chunkZPos) != null;
     }
 
     public static void openSMPContainer(EntityPlayerMP player, Container container, IGuiPacketSender packetSender) {
