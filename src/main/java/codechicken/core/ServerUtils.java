@@ -1,15 +1,14 @@
 package codechicken.core;
 
+import codechicken.lib.util.CommonUtils;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.server.management.PlayerProfileCache.ProfileEntry;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.ArrayList;

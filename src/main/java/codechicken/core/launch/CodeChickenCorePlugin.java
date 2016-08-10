@@ -32,7 +32,7 @@ import java.util.jar.Manifest;
 
 @TransformerExclusions(value = { "codechicken.core.asm", "codechicken.obfuscator" })
 public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
-    public static final String mcVersion = "[1.9.4,1.10.2]";
+    public static final String mcVersion = "[1.10.2]";
     public static final String version = "${mod_version}";
 
     public static File minecraftDir;

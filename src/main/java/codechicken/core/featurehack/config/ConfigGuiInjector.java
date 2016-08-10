@@ -1,6 +1,6 @@
 package codechicken.core.featurehack.config;
 
-import codechicken.core.ReflectionManager;
+import codechicken.lib.util.ReflectionManager;
 import codechicken.lib.config.ConfigFile;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;

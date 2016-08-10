@@ -6,6 +6,7 @@ import codechicken.core.internal.CCCEventHandler;
 import codechicken.core.internal.CCCrashCallable;
 import codechicken.core.launch.CodeChickenCorePlugin;
 import codechicken.lib.config.ConfigFile;
+import codechicken.lib.render.CCRenderEventHandler;
 import codechicken.lib.render.HitBoxRenderHandler;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -76,8 +77,10 @@ public class CodeChickenCoreModContainer extends DummyModContainer {
                 CCUpdateChecker.updateCheck(getModId());
                 //ConfigGuiInjector.init();
             }
+
             MinecraftForge.EVENT_BUS.register(new CCCEventHandler());
             HitBoxRenderHandler.init();
+            CCRenderEventHandler.init();
         }
     }
 
