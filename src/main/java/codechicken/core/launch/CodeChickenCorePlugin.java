@@ -49,7 +49,6 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
 
         DepLoader.load();
         injectDeobfPlugin();
-        CodeChickenCoreModContainer.loadConfig();
     }
 
     private void injectDeobfPlugin() {
@@ -70,18 +69,12 @@ public class CodeChickenCorePlugin implements IFMLLoadingPlugin, IFMLCallHook {
         String mcVersion = (String) FMLInjectionData.data()[4];
         if (!VersionParser.parseRange(reqVersion).containsVersion(new DefaultArtifactVersion(mcVersion))) {
 
-            if (CodeChickenCoreModContainer.config.getTag("ignoreInvalidMCVersion").getBooleanValue(false)) {
-                FMLLog.log("CodeChickenCore", Level.FATAL, "CodeChickenCore is attempting to load mod [%s] for an invalid version of minecraft as per the set config value. If this should not be happening check your CodeChickenCore Config for \"ignoreInvalidMCVersion\".", mod);
-                return;
-            }
-
             String err = "This version of " + mod + " does not support minecraft version " + mcVersion;
             logger.error(err);
 
             JEditorPane ep = new JEditorPane("text/html", "<html>" +
                     err +
                     "<br>Remove it from your coremods folder and check <a href=\"http://www.minecraftforum.net/topic/909223-\">here</a> for updates" +
-                    "<br>If you are %100 sure you know what you are doing optionally you can set \"ignoreInvalidMCVersion\" in the CodeChickenCore Config to true." +
                     "</html>");
 
             ep.setEditable(false);

@@ -37,6 +37,7 @@ public class CodeChickenCoreModContainer extends DummyModContainer {
 
     public CodeChickenCoreModContainer() {
         super(MetadataCollection.from(MetadataCollection.class.getResourceAsStream("/cccmod.info"), "CodeChickenCore").getMetadataForId("CodeChickenCore", null));
+        loadConfig();
     }
 
     @Override
