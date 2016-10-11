@@ -5,11 +5,10 @@ import codechicken.core.featurehack.mc.TextureLavaFX;
 import codechicken.core.featurehack.mc.TextureLavaFlowFX;
 import codechicken.core.featurehack.mc.TextureWaterFX;
 import codechicken.core.featurehack.mc.TextureWaterFlowFX;
-import codechicken.lib.render.TextureSpecial;
+import codechicken.lib.texture.TextureSpecial;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Map;
 
