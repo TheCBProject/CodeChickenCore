@@ -2,8 +2,8 @@ package codechicken.core.launch;
 
 import codechicken.core.CCUpdateChecker;
 import codechicken.core.internal.CCCEventHandler;
+import codechicken.lib.CodeChickenLib;
 import codechicken.lib.config.ConfigFile;
-import codechicken.lib.render.CCRenderEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-@Mod(modid = "CodeChickenCore", name = "CodeChicken Core", acceptedMinecraftVersions = CodeChickenCorePlugin.mcVersion)
+@Mod(modid = "CodeChickenCore", name = "CodeChicken Core", dependencies = "required-after:CodeChickenLib@[" + CodeChickenLib.version + ",)", acceptedMinecraftVersions = CodeChickenCorePlugin.mcVersion)
 public class CodeChickenCorePlugin {
     public static final String mcVersion = "[1.10.2]";
     public static final String version = "${mod_version}";
@@ -48,11 +48,9 @@ public class CodeChickenCorePlugin {
         if (event.getSide().isClient()) {
             if (config.getTag("checkUpdates").getBooleanValue(true)) {
                 CCUpdateChecker.updateCheck("CodeChickenCore");
-                //ConfigGuiInjector.init();
             }
 
             MinecraftForge.EVENT_BUS.register(new CCCEventHandler());
-            CCRenderEventHandler.init();
         }
     }
 }
