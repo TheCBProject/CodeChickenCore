@@ -13,20 +13,21 @@ import java.util.Map;
 
 import static codechicken.lib.asm.InsnComparator.findOnce;
 
-@Deprecated
-public class TweakTransformer implements IClassTransformer, Opcodes {
-    private static ModularASMTransformer transformer = new ModularASMTransformer();
-    private static Map<String, ASMBlock> blocks = ASMReader.loadResource("/assets/codechickencore/asm/tweaks.asm");
-    public static ConfigTag tweaks;
+@Deprecated//TODO Finish moving tweaks away to CCTweaks.
+public class TweakTransformer //implements IClassTransformer, Opcodes {
+{
+    //private static ModularASMTransformer transformer = new ModularASMTransformer();
+    //private static Map<String, ASMBlock> blocks = ASMReader.loadResource("/assets/codechickencore/asm/tweaks.asm");
+    //public static ConfigTag tweaks;
 
-    public static void load() {
-        CodeChickenCoreModContainer.loadConfig();
-        tweaks = CodeChickenCoreModContainer.config.getTag("tweaks").setComment("Various tweaks that can be applied to game mechanics.").useBraces();
-        tweaks.removeTag("persistantLava");
+    //public static void load() {
+        //CodeChickenCoreModContainer.loadConfig();
+        //tweaks = CodeChickenCoreModContainer.config.getTag("tweaks").setComment("Various tweaks that can be applied to game mechanics.").useBraces();
+        //tweaks.removeTag("persistantLava");
 
-        if (tweaks.getTag("environmentallyFriendlyCreepers").setComment("If set to true, creepers will not destroy landscape. (A version of mobGriefing setting just for creepers)").getBooleanValue(false)) {
-            transformer.add(new MethodReplacer(new ObfMapping("net/minecraft/entity/monster/EntityCreeper", "func_146077_cc", "()V"), blocks.get("d_environmentallyFriendlyCreepers"), blocks.get("environmentallyFriendlyCreepers")));
-        }
+        //if (tweaks.getTag("environmentallyFriendlyCreepers").setComment("If set to true, creepers will not destroy landscape. (A version of mobGriefing setting just for creepers)").getBooleanValue(false)) {
+        //    transformer.add(new MethodReplacer(new ObfMapping("net/minecraft/entity/monster/EntityCreeper", "func_146077_cc", "()V"), blocks.get("d_environmentallyFriendlyCreepers"), blocks.get("environmentallyFriendlyCreepers")));
+        //}
 
         /*if (!tweaks.getTag("softLeafReplace")
                 .setComment("If set to false, leaves will only replace air when growing")
@@ -52,20 +53,20 @@ public class TweakTransformer implements IClassTransformer, Opcodes {
             });
         }*/
 
-        if (tweaks.getTag("finiteWater").setComment("If set to true two adjacent water source blocks will not generate a third.").getBooleanValue(false)) {
-            transformer.add(new MethodTransformer(new ObfMapping("net/minecraft/block/BlockDynamicLiquid", "func_180650_b", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Ljava/util/Random;)V")) {
-                @Override
-                public void transform(MethodNode mv) {
-                    InsnListSection key = findOnce(mv.instructions, blocks.get("finiteWater").list);
-                    key.setLast(((JumpInsnNode) key.getLast()).label);
-                    key.remove();
-                }
-            });
-        }
-    }
+        //if (tweaks.getTag("finiteWater").setComment("If set to true two adjacent water source blocks will not generate a third.").getBooleanValue(false)) {
+        //    transformer.add(new MethodTransformer(new ObfMapping("net/minecraft/block/BlockDynamicLiquid", "func_180650_b", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Ljava/util/Random;)V")) {
+        //        @Override
+        //        public void transform(MethodNode mv) {
+        //            InsnListSection key = findOnce(mv.instructions, blocks.get("finiteWater").list);
+        //            key.setLast(((JumpInsnNode) key.getLast()).label);
+        //            key.remove();
+        //        }
+        //    });
+        //}
+    //}
 
-    @Override
-    public byte[] transform(String name, String tname, byte[] bytes) {
-        return transformer.transform(name, bytes);
-    }
+    //@Override
+    //public byte[] transform(String name, String tname, byte[] bytes) {
+    //    return transformer.transform(name, bytes);
+    //}
 }

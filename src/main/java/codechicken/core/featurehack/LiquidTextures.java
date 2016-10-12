@@ -18,22 +18,22 @@ public class LiquidTextures {
     public static boolean replaceLava;
     public static boolean replaceWater;
 
-    public static void init() {//TODO Move this to CB's Tweaks.
-        replaceWater = TweakTransformer.tweaks.getTag("replaceWaterFX").setComment("Set this to true to use the pre1.5 water textures").getBooleanValue(false);
-        replaceLava = TweakTransformer.tweaks.getTag("replaceLavaFX").setComment("Set this to true to use the pre1.5 lava textures").getBooleanValue(false);
-        if (replaceWater) {
-            newTextures[0] = new TextureWaterFX().texture;
-            newTextures[1] = new TextureWaterFlowFX().texture;
-        }
-        if (replaceLava) {
-            newTextures[2] = new TextureLavaFX().texture;
-            newTextures[3] = new TextureLavaFlowFX().texture;
-        }
-
-        if (replaceWater || replaceLava) {
-            MinecraftForge.EVENT_BUS.register(new LiquidTextures());
-        }
-    }
+    //public static void init() {//TODO Move this to CB's Tweaks.
+    //    replaceWater = TweakTransformer.tweaks.getTag("replaceWaterFX").setComment("Set this to true to use the pre1.5 water textures").getBooleanValue(false);
+    //    replaceLava = TweakTransformer.tweaks.getTag("replaceLavaFX").setComment("Set this to true to use the pre1.5 lava textures").getBooleanValue(false);
+    //    if (replaceWater) {
+    //        newTextures[0] = new TextureWaterFX().texture;
+    //        newTextures[1] = new TextureWaterFlowFX().texture;
+    //    }
+    //    if (replaceLava) {
+    //        newTextures[2] = new TextureLavaFX().texture;
+    //        newTextures[3] = new TextureLavaFlowFX().texture;
+    //    }
+    //
+    //    if (replaceWater || replaceLava) {
+    //        MinecraftForge.EVENT_BUS.register(new LiquidTextures());
+    //    }
+    //}
 
     //@SubscribeEvent
     public void postStitch(TextureStitchEvent.Post event) {
