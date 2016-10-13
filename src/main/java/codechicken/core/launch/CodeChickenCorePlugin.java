@@ -14,9 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-@Mod(modid = "CodeChickenCore", name = "CodeChicken Core", dependencies = "required-after:CodeChickenLib@[" + CodeChickenLib.version + ",)", acceptedMinecraftVersions = CodeChickenCorePlugin.mcVersion)
+@Mod(modid = "CodeChickenCore", name = "CodeChicken Core", dependencies = "required-after:CodeChickenLib@[" + CodeChickenLib.version + ",)", acceptedMinecraftVersions = CodeChickenLib.mcVersion)
 public class CodeChickenCorePlugin {
-    public static final String mcVersion = "[1.10.2]";
     public static final String version = "${mod_version}";
 
     public static File minecraftDir;
