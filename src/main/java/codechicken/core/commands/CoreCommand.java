@@ -1,6 +1,6 @@
 package codechicken.core.commands;
 
-import codechicken.core.ServerUtils;
+import codechicken.lib.util.ServerUtils;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
