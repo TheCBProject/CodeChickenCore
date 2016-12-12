@@ -2,5 +2,11 @@
   "archivesBase" : "codechicken.CodeChickenCore",
   "displayName" : "CodeChicken Core",
   "projectId" : "243822",
-  "uploadSRC" : false
+  "uploadSRC" : false,
+  "relations" : [
+    {
+      "slug" : "codechicken-lib-1-8",
+      "type" : "requiredLibrary"
+    }
+  ]
 }
