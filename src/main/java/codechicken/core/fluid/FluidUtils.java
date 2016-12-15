@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class FluidUtils {
     public static int B = FluidContainerRegistry.BUCKET_VOLUME;
@@ -20,11 +21,11 @@ public class FluidUtils {
             return false;
         }
 
-        if (tank.fill(null, liquid, false) != liquid.amount && !player.capabilities.isCreativeMode) {
+        if (tank.fill(liquid, false) != liquid.amount && !player.capabilities.isCreativeMode) {
             return false;
         }
 
-        tank.fill(null, liquid, true);
+        tank.fill(liquid, true);
 
         if (!player.capabilities.isCreativeMode) {
             InventoryUtils.consumeItem(player.inventory, player.inventory.currentItem);
@@ -48,7 +49,7 @@ public class FluidUtils {
             return false;
         }
 
-        tank.drain(null, liquid.amount, true);
+        tank.drain(liquid.amount, true);
 
         if (!player.capabilities.isCreativeMode) {
             if (stack.stackSize == 1) {
