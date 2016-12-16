@@ -39,7 +39,6 @@ public class CodeChickenCorePlugin {
         minecraftDir = (File) FMLInjectionData.data()[6];
         currentMcVersion = (String) FMLInjectionData.data()[4];
 
-        DepLoader.load();
         loadConfig();
     }
 
