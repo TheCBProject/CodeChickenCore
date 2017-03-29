@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// TODO, fix me for 1.11.2
 public class MappedInventoryAccess implements IInventory {
     public interface InventoryAccessor {
         boolean canAccessSlot(int slot);
@@ -79,9 +80,8 @@ public class MappedInventoryAccess implements IInventory {
         inv.markDirty();
     }
 
-    @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
-        return inv.isUseableByPlayer(player);
+        return inv.isUsableByPlayer(player);
     }
 
     public void addAccessor(InventoryAccessor accessor) {
@@ -142,4 +142,15 @@ public class MappedInventoryAccess implements IInventory {
     public List<InventoryAccessor> accessors() {
         return accessors;
     }
+
+	@Override
+	public boolean isEmpty() {
+		return slotMap.size() == 0;
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

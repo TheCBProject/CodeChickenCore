@@ -5,9 +5,17 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+        maven {
+            name = "covers1624"
+            url = "http://maven.covers1624.net/"
+        }
+        maven {
+            name = "covers1624"
+            url = "http://mavenmirror.covers1624.net/"
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 
@@ -16,6 +24,9 @@ apply plugin: 'maven'
 
 group = "codechicken"
 archivesBaseName = "CodeChickenCore"
+
+targetCompatibility = "1.8"
+sourceCompatibility = "1.8"
 
 // Define properties file
 ext.configFile = file "build.properties"
@@ -90,16 +101,16 @@ task deobfJar(type: Jar) {
 
 
 task signJar(type: SignJar, dependsOn: reobfJar) {
-    onlyIf { // Skip the task if our secret data isn't available
-        project.hasProperty('keyStore')
-    }
+    // onlyIf { // Skip the task if our secret data isn't available
+    //     project.hasProperty('keyStore')
+    // }
 
-    keyStore = project.keyStore // This needs to be a path to the keystore file
-    alias = project.keyStoreAlias
-    storePass = project.keyStorePass
-    keyPass = project.keyStoreKeyPass
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
+    // keyStore = project.keyStore // This needs to be a path to the keystore file
+    // alias = project.keyStoreAlias
+    // storePass = project.keyStorePass
+    // keyPass = project.keyStoreKeyPass
+    // inputFile = jar.archivePath
+    // outputFile = jar.archivePath
 }
 
 build.dependsOn signJar

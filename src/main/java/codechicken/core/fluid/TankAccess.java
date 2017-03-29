@@ -2,7 +2,7 @@ package codechicken.core.fluid;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 @Deprecated
 public class TankAccess {
@@ -19,10 +19,10 @@ public class TankAccess {
     }
 
     public int fill(FluidStack resource, boolean doFill) {
-        return tank.fill(face, resource, doFill);
+        return tank.fill(resource, doFill);
     }
 
     public FluidStack drain(int maxDrain, boolean doDrain) {
-        return tank.drain(face, maxDrain, doDrain);
+        return tank.drain(maxDrain, doDrain);
     }
 }

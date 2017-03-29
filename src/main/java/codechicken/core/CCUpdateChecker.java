@@ -59,7 +59,7 @@ public class CCUpdateChecker {
 
         synchronized (updates) {
             for (String updateMessage : updates) {
-                mc.thePlayer.addChatMessage(new TextComponentString(updateMessage));
+                mc.player.sendMessage(new TextComponentString(updateMessage));
             }
             updates.clear();
         }

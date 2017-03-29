@@ -29,7 +29,7 @@ public class SlotDummy extends SlotHandleClicks {
     public void slotClick(ItemStack held, int button, boolean shift) {
         ItemStack tstack = getStack();
         if (held != null && (tstack == null || !InventoryUtils.canStack(held, tstack))) {
-            int quantity = Math.min(held.stackSize, stackLimit);
+            int quantity = Math.min(held.getCount(), stackLimit);
             if (shift) {
                 quantity = Math.min(stackLimit, held.getMaxStackSize() * 16);
             }
@@ -40,7 +40,7 @@ public class SlotDummy extends SlotHandleClicks {
         } else if (tstack != null) {
             int inc;
             if (held != null) {
-                inc = button == 1 ? -held.stackSize : held.stackSize;
+                inc = button == 1 ? -held.getCount() : held.getCount();
                 if (shift) {
                     inc *= 16;
                 }
@@ -50,7 +50,7 @@ public class SlotDummy extends SlotHandleClicks {
                     inc *= 16;
                 }
             }
-            int quantity = tstack.stackSize + inc;
+            int quantity = tstack.getCount() + inc;
             if (quantity <= 0) {
                 putStack(null);
             } else {
@@ -61,7 +61,7 @@ public class SlotDummy extends SlotHandleClicks {
 
     @Override
     public void putStack(ItemStack stack) {
-        if (stack != null && stack.stackSize > stackLimit) {
+        if (stack != null && stack.getCount() > stackLimit) {
             stack = InventoryUtils.copyStack(stack, stackLimit);
         }
         super.putStack(stack);

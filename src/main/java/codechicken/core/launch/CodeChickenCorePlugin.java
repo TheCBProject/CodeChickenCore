@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
-@Mod(modid = "CodeChickenCore", name = "CodeChicken Core", dependencies = "required-after:CodeChickenLib@[" + CodeChickenLib.version + ",)", acceptedMinecraftVersions = CodeChickenLib.mcVersion, certificateFingerprint = "f1850c39b2516232a2108a7bd84d1cb5df93b261")
+@Mod(modid = "CodeChickenCore", name = "CodeChicken Core", dependencies = "required-after:CodeChickenLib@[" + CodeChickenLib.version + ",)", acceptedMinecraftVersions = CodeChickenLib.MC_VERSION, certificateFingerprint = "f1850c39b2516232a2108a7bd84d1cb5df93b261")
 public class CodeChickenCorePlugin {
     public static final String version = "${mod_version}";
 

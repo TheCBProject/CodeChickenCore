@@ -7,15 +7,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 
 public class FluidUtils {
-    public static int B = FluidContainerRegistry.BUCKET_VOLUME;
-    public static FluidStack water = new FluidStack(FluidRegistry.WATER, 1000);
-    public static FluidStack lava = new FluidStack(FluidRegistry.LAVA, 1000);
+    public static int B = Fluid.BUCKET_VOLUME;
+    public static FluidStack water = new FluidStack(FluidRegistry.WATER, B);
+    public static FluidStack lava = new FluidStack(FluidRegistry.LAVA, B);
 
     public static boolean fillTankWithContainer(IFluidHandler tank, EntityPlayer player) {
         ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
-        FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(stack);
+        FluidStack liquid = new FluidHandlerItemStack(stack, B).getFluid();
 
         if (liquid == null) {
             return false;
@@ -37,14 +38,14 @@ public class FluidUtils {
 
     public static boolean emptyTankIntoContainer(IFluidHandler tank, EntityPlayer player, FluidStack tankLiquid) {
         ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
+        FluidStack liquid = new FluidHandlerItemStack(stack, B).getFluid();
 
-        if (!FluidContainerRegistry.isEmptyContainer(stack)) {
+        if (liquid.amount > 0) {
             return false;
         }
 
-        ItemStack filled = FluidContainerRegistry.fillFluidContainer(tankLiquid, stack);
-        FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(filled);
-
+        ItemStack filled = new FluidHandlerItemStack(stack, B).getContainer().copy();
+        
         if (liquid == null || filled == null) {
             return false;
         }
@@ -52,10 +53,10 @@ public class FluidUtils {
         tank.drain(liquid.amount, true);
 
         if (!player.capabilities.isCreativeMode) {
-            if (stack.stackSize == 1) {
+            if (stack.getCount() == 1) {
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, filled);
             } else if (player.inventory.addItemStackToInventory(filled)) {
-                stack.stackSize--;
+                stack.shrink(1);
             } else {
                 return false;
             }

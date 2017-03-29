@@ -17,22 +17,21 @@ import java.util.List;
 
 public abstract class CoreCommand implements ICommand {
     public static void chatT(ICommandSender sender, String s, Object... params) {
-        sender.addChatMessage(new TextComponentTranslation(s, params));
+        sender.sendMessage(new TextComponentTranslation(s, params));
     }
 
     public static void chatOpsT(String s, Object... params) {
         for (EntityPlayerMP player : ServerUtils.getPlayers()) {
             if (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().canSendCommands(player.getGameProfile())) {
-                player.addChatMessage(new TextComponentTranslation(s, params));
+                player.sendMessage(new TextComponentTranslation(s, params));
             }
         }
     }
 
     public abstract boolean isOpOnly();
 
-    @Override
     public String getCommandUsage(ICommandSender commandSender) {
-        return "/" + getCommandName() + " help";
+        return "/" + getName() + " help";
     }
 
     @Override
@@ -42,7 +41,7 @@ public abstract class CoreCommand implements ICommand {
             return;
         }
 
-        String command = getCommandName();
+        String command = getName();
         for (String arg : args) {
             command += " " + arg;
         }
@@ -63,20 +62,18 @@ public abstract class CoreCommand implements ICommand {
     }
 
     public WorldServer getWorld(EntityPlayer player) {
-        return (WorldServer) player.worldObj;
+        return (WorldServer) player.world;
     }
 
     @Override
     public int compareTo(ICommand o) {
-        return getCommandName().compareTo(o.getCommandName());
+        return getName().compareTo(o.getName());
     }
 
-    @Override
     public List<String> getCommandAliases() {
         return new ArrayList<String>();
     }
 
-    @Override
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
         return null;
     }
