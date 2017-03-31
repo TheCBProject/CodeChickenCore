@@ -76,7 +76,6 @@ processResources {
     rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
-version = "${project.minecraft.version}-${project.version}"
 def commonManifest = {
     attributes 'FMLCorePluginContainsFMLMod': 'true'
     attributes 'FMLAT': 'ccc_at.cfg'
@@ -98,7 +97,6 @@ task deobfJar(type: Jar) {
     classifier = 'deobf'
     manifest commonManifest
 }
-
 
 task signJar(type: SignJar, dependsOn: reobfJar) {
     // onlyIf { // Skip the task if our secret data isn't available
