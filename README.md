@@ -1,7 +1,7 @@
 CodeChickenCore
 ==============
 
-**Note: CodeChickenCore is now deprecated in 1.11.2, please use [CodeChickenLib](https://github.com/TheCBProject/CodeChickenLib) in it's place.**
+**Note: As of 1.11, CodeChickenCore is dead.  Please use [CodeChickenLib](https://github.com/TheCBProject/CodeChickenLib) in it's place, which contains almost all of its functionality.**
 
 This is the core of all ChickenBones mods.
 
